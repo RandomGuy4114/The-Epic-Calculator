@@ -1,4 +1,4 @@
-![ezgif-32c18a9fa43f8689](https://github.com/user-attachments/assets/cd038668-eed6-4868-879c-a59c3352d069)
+![ezgif-3112658bfaa34a59](https://github.com/user-attachments/assets/42267ee0-1243-422d-9b10-551f02a517e7)
 
 
 *The epic calculator, the most useless way to do Math!*
