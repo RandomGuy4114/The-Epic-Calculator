@@ -1,7 +1,7 @@
-# The-Epic-Calculator
+# The Epic Calculator
 The epic calculator, the most useless way to do Math! 
 
-# Current-Features
+# Current Features:
 - Level System
 - Score System
 - Rebirth System
