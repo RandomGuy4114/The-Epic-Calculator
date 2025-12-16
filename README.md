@@ -12,5 +12,3 @@ The epic calculator, the most useless way to do Math!
 - Gambling 🤑
 - Etc
 
-
-This line will be removed later
