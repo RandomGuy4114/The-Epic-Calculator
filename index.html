@@ -3,17 +3,17 @@
 <html>
     <head>
         <style>
-            h1 {font-family: "Comic Sans MS";}
-            p {font-family: "Comic Sans MS";}
-            button {font-family: "Comic Sans MS";}
-            h2 {font-family: "Comic Sans MS";}
-            h3 {font-family: "Comic Sans MS";}
-            h4 {font-family: "Comic Sans MS";}
-            h5 {font-family: "Comic Sans MS";}
-            h6 {font-family: "Comic Sans MS";}
+            h1 {font-family: "Comic Sans";}
+            p {font-family: "Comic Sans";}
+            button {font-family: "Comic Sans";}
+            h2 {font-family: "Comic Sans";}
+            h3 {font-family: "Comic Sans";}
+            h4 {font-family: "Comic Sans";}
+            h5 {font-family: "Comic Sans";}
+            h6 {font-family: "Comic Sans";}
             .title {
                 display: flex;
-                font-family: "Comic Sans MS", "Comic Sans", cursive;
+                font-family: "Comic Sans";
                 justify-content: center;
                 align-items: center;
             }
@@ -72,7 +72,7 @@
             }
             .achievementoverlay {
                 width:50%;
-                height:8%;
+                height:100px;
                 position:fixed;
                 left:25%;
                 z-index:100;
@@ -135,6 +135,15 @@
                 50% {transform: translateY(-50px); opacity: 0;}
                 100% {transform: translateY(-50px); opacity: 0;}
             }
+
+            @font-face {
+                font-family: 'Comic Sans';
+                src:
+                    url('Comic Sans MS.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+
         </style>
     </head>
 
@@ -142,9 +151,9 @@
 
 <body id="bg">
     <div id="settingsoverlay" class="overlay" style="text-align: center; visibility: hidden;">
-        <button id= "closesettings" style="font-family: Comic Sans MS; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
-        <h1 style="font-family: Comic Sans MS;">SETTINGS</h1>
-        <button class="rainbowtext" id="CrazyButton" style="font-family: Comic Sans MS;">
+        <button id= "closesettings" style="font-family: Comic Sans; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
+        <h1 style="font-family: Comic Sans;">SETTINGS</h1>
+        <button class="rainbowtext" id="CrazyButton" style="font-family: Comic Sans;">
             <span style="--i:0">C</span>
             <span style="--i:1">R</span>
             <span style="--i:2">A</span>
@@ -159,17 +168,17 @@
         </button>
     </div>
     <div id="achievement" class="achievementoverlay" style="visibility: hidden;">
-        <p style="margin: 1%; font-size: 17px;">Achievement Get!</p>
+        <p style="font-size: 17px;">Achievement Get!</p>
         <p id="achievementname">Placeholder</p>
     </div>
     <div id="RebirthOverlay" class="overlay" style="text-align: center; visibility: hidden;">
-        <button id= "closerebirth" style="font-family: Comic Sans MS; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
+        <button id= "closerebirth" style="font-family: Comic Sans; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
         <h1>Are you sure you want to</h1><h1 style="color: red; text-shadow: 0px 0px 20px rgba(255, 0, 0, 0.824);">Rebirth?</h1>
         <p>Rebirth Removes all your progress (even though refreshing the website does the same thing :/)</p>
         <button id="RebirthConfirm">Yes, I'm sure I want to rebirth.</button>
     </div>
     <div id="AchievementListOverlay" class="overlay" style="text-align: center; visibility: hidden;">
-        <button id= "CloseAchievementListOverlay" style="font-family: Comic Sans MS; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
+        <button id= "CloseAchievementListOverlay" style="font-family: Comic Sans; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
         <h1>ACHIEVEMENTS</h1>
         <p id="achievementlist">Placeholder</p>
     </div>
@@ -193,7 +202,7 @@
         </h1>
     </div>
     <div class="textfield">
-        <div class= "Scorebox"style="width:180px; height:10px; border:1px solid black; padding:10px; font-family: Comic Sans MS; display: flex; align-items: center; overflow: hidden">
+        <div class= "Scorebox"style="width:180px; height:10px; border:1px solid black; padding:10px; font-family: Comic Sans; display: flex; align-items: center; overflow: hidden">
             <p>Score:</p>
             &ensp;
             <p id="scoretext">0</p>
@@ -201,29 +210,30 @@
     </div>
     </div>
     <div class="textfield">
-        <div id="resultbar" style="width:200px; height:20px; border:1px solid black; padding:10px; font-family: Comic Sans MS;"></div>
+        <div id="resultbar" style="width:200px; height:20px; border:1px solid black; padding:10px; font-family: Comic Sans;"></div>
     </div>
     <div class="textfield">
-        <input type="number" id = "num1" class="num1"style="resize: none; font-size: 35px; width: 50px; height: 50px; font-family: Comic Sans MS; text-align: center"></textarea>
-        <select class="dropdown" id= "dropdown" style="width: 50px; height: 50px; text-align: center; border-style: none; font-size: xx-large; background-color: white; font-family: Comic Sans MS">
+        <input type="number" id = "num1" class="num1"style="resize: none; font-size: 35px; width: 50px; height: 50px; font-family: Comic Sans; text-align: center"></textarea>
+        <select class="dropdown" id= "dropdown" style="width: 50px; height: 50px; text-align: center; border-style: none; font-size: xx-large; background-color: white; font-family: Comic Sans">
             <option value="+">+</option>
             <option value="-">-</option>
             <option value="x">x</option>
             <option value="/">/</option>
             <option value="?">?</option>
         </select>
-        <input type="number" id = "num2"class="num2" style="resize: none; font-size: 35px; width: 50px; height: 50px; font-family: Comic Sans MS; text-align: center;"></textarea>
+        <input type="number" id = "num2"class="num2" style="resize: none; font-size: 35px; width: 50px; height: 50px; font-family: Comic Sans; text-align: center;"></textarea>
     </div>
     <br>
     <div style="text-align: center;">
-        <button class="button" id="button" style="width: 190px; height: 40px; font-family: Comic Sans MS;">RESULT</button>
+        <button class="button" id="button" style="width: 190px; height: 40px; font-family: Comic Sans;">RESULT</button>
     </div>
-    <p id="levelcounter" style="font-family: Comic Sans MS; text-align: center;">Current Level: 0</p>
-    <p id="levelreqcounter" style="font-family: Comic Sans MS; text-align: center;">Current Level Requirement: 0</p>
-    <p id="CalcBuxCounter" style="font-family: Comic Sans MS; text-align: center;">CalcBux Amount: 0</p>
-    <button id= "SettingsButton" style="position: fixed; bottom: 0;font-family: Comic Sans MS;">Settings</button>
-    <button id= "Rebirth" style="position: fixed; bottom: 0;font-family: Comic Sans MS; left: 190px; visibility: hidden;">Rebirth</button>
-    <button id= "AchievementButton" style="position: fixed; bottom: 0;font-family: Comic Sans MS; left: 80px;">Achievements</button>
+    <p id="levelcounter" style="font-family: Comic Sans; text-align: center;">Current Level: 0</p>
+    <p id="levelreqcounter" style="font-family: Comic Sans; text-align: center;">Current Level Requirement: 0</p>
+    <p id="CalcBuxCounter" style="font-family: Comic Sans; text-align: center;">CalcBux Amount: 0</p>
+    <button id= "SettingsButton" style="position: fixed; bottom: 0;font-family: Comic Sans;">Settings</button>
+    <button id= "Rebirth" style="position: fixed; bottom: 0;font-family: Comic Sans; left: 190px; visibility: hidden;">Rebirth</button>
+    <button id= "AchievementButton" style="position: fixed; bottom: 0;font-family: Comic Sans; left: 80px;">Achievements</button>
+    <p id="Combocounter" style="font-family: Comic Sans; text-align: center;">COMBO: 0</p>
 </body>
 <script>
     const button = document.getElementById("button")
@@ -245,6 +255,7 @@
     const RebirthConfirm = document.getElementById("RebirthConfirm")
     const levelreqcounter = document.getElementById("levelreqcounter")
     const CalcBuxCounter = document.getElementById("CalcBuxCounter")
+
     let scorereq = 5000
     let score = 0
     let result;
@@ -254,6 +265,8 @@
     let rainbowfast = false;
     let CalcBux = 0;
     let CalcStress = 0;
+    let ButtonDebounce = false;
+    let secondThoughtActive = false;
 
     levelreqcounter.textContent = "Current Level Requirement: " + scorereq
     function getRandomColor() {
@@ -266,6 +279,37 @@
     return color;
     }
 
+    // Combo System
+
+    ComboValue = 0;
+    ComboCounter = document.getElementById("Combocounter");
+
+    var comboLowerTimeout;
+    var comboLowerInterval;
+
+    function startLowering() {
+        comboLowerInterval = setInterval(() => {
+            if (ComboValue > 0) {
+                ComboValue -= 1;
+                ComboCounter.textContent = "COMBO: " + ComboValue;
+            }
+        }, 200);
+    }
+
+    num1.addEventListener('input', () => {
+        ComboValue += 1;
+        ComboCounter.textContent = "COMBO: " + ComboValue;
+        clearTimeout(comboLowerTimeout);
+        clearInterval(comboLowerInterval);
+        comboLowerTimeout = setTimeout(startLowering, 200);
+    });
+    num2.addEventListener('input', () => {
+        ComboValue += 1;
+        ComboCounter.textContent = "COMBO: " + ComboValue;
+        clearTimeout(comboLowerTimeout);
+        clearInterval(comboLowerInterval);
+        comboLowerTimeout = setTimeout(startLowering, 200);
+    });
     // Achievement System
     function AnimateAchievement(text) {
         // Reset any previous animation
@@ -292,7 +336,23 @@
         }, 1000); // appear duration
     }
 
-
+    // Second thought System
+    function SecondThought(Answer) {
+        if (Math.random() < 0.1) {
+            secondThoughtActive = true;
+            const messages = ["Wait its actually...", "On second thought...", "Wait...", "Hold up...", "Actually...", "Reconsidering...", "After a moment..."]
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            resultbar.textContent = "Maybe " + Number(Answer) + 5 + "?"
+            setTimeout(() => {
+                resultbar.textContent = messages[randomIndex]
+            }, 500);
+            
+            setTimeout(() => {
+                resultbar.textContent = Answer
+                secondThoughtActive = false;
+            }, 1200);
+        }
+    }
 
 
 
@@ -376,6 +436,7 @@
             GambleDebounce = false
         }, 1000);
     }
+
     // Calculator
 
 
@@ -408,6 +469,7 @@
     }
     
     button.addEventListener('click', () => {
+        if (secondThoughtActive) return;
         if (Math.random() > 0.1) {
             CalcFirstUsed = true
             if (dropdown.value == "+") {
@@ -425,6 +487,7 @@
                 }
                 LevelSystem()
                 CalcStress = 0
+                SecondThought(resultbar.textContent)
             }
             if (dropdown.value == "-") {
                 CalcFirstUsed = true
@@ -432,6 +495,7 @@
                 result = num1.value - num2.value
                 LevelSystem()
                 CalcStress = 0
+                SecondThought(resultbar.textContent)
             }
             if (dropdown.value == "x") {
                 CalcFirstUsed = true
@@ -439,6 +503,7 @@
                 result = num1.value * num2.value
                 LevelSystem()
                 CalcStress = 0
+                SecondThought(resultbar.textContent)
             }
             if (dropdown.value == "/") {
                 CalcFirstUsed = true
@@ -452,6 +517,7 @@
                 }
                 CalcStress += 0.02
                 LevelSystem()
+                SecondThought(resultbar.textContent)
             }
         } else {
             const messages = ["I'm not sure...", "idk maybe 2 or 5?", "I actually dont know", "???", "what even is this?", "Nope", "Not answering that"]
@@ -465,7 +531,6 @@
             const randomIndex = Math.floor(Math.random() * messages.length);
             resultbar.textContent = messages[randomIndex]
         }
-
         if (dropdown.value == "?") {
             Gamble2 = true
             if (GambleDebounce == false) {
@@ -550,5 +615,4 @@
         const pageY = event.pageY;
         
     });
-
 </script>
