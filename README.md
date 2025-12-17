@@ -1,8 +1,8 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/074d1b24-aab8-4427-8148-90fbdc16afb6">
 </p>
-<p style="text-align: center;">
-*The epic calculator, the most useless way to do Math!*
+<p align="center">
+The epic calculator, the most useless way to do Math!
 </p>
 
 
