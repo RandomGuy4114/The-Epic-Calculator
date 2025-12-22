@@ -14,7 +14,7 @@
 - Settings
 - Crazy Mode
 - Stress
-- Gambling || 🤑
+- Gambling 🤑
 - Etc
 
 # Why did I make this?

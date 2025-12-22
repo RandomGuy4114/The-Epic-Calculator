@@ -166,6 +166,9 @@
             <span style="--i:8">E</span>
             <span>(Epilepsy Warning)</span>
         </button>
+        <button id="DifficultyButton">Difficulty:
+            <span style="color: lime; --i:1">Easy</span>
+        </button>
     </div>
     <div id="achievement" class="achievementoverlay" style="visibility: hidden;">
         <p style="font-size: 17px;">Achievement Get!</p>
@@ -278,9 +281,39 @@
     }
     return color;
     }
+    // Difficulty System
+    let secondThouhtChance = 0.1;
+    let IdkChance = 0.1;
+
+    const DifficultyButton = document.getElementById("DifficultyButton"); 
+    let CurrentDifficulty = "Easy";
+    DifficultyButton.addEventListener("click", () => {
+        if (DifficultyButton.textContent.includes("Easy")) {
+            DifficultyButton.innerHTML = 'Difficulty: <span style="color: orange; --i:1">Medium</span>';
+            scorereq *= 1.5
+            CurrentDifficulty = "Medium"
+            secondThouhtChance *= 0.5
+            IdkChance *= 0.2
+        } else if (DifficultyButton.textContent.includes("Medium")) {
+            DifficultyButton.innerHTML = 'Difficulty: <span style="color: red; --i:1">Hard</span>';
+            scorereq *= 2
+            CurrentDifficulty = "Hard"
+            secondThouhtChance *= 1.5
+            IdkChance *= 0.4
+        } else if (DifficultyButton.textContent.includes("Hard")) {
+            DifficultyButton.innerHTML = 'Difficulty: <span style="color: lime; --i:1">Easy</span>';
+            scorereq /= 3
+            secondThouhtChance /= 0.75
+            IdkChance /= 0.6
+            CurrentDifficulty = "Easy"
+        }
+        levelreqcounter.textContent = "Current Level Requirement: " + Math.round(scorereq)
+    });
+
+
 
     // Combo System
-
+    ComboSpeed = 0;
     ComboValue = 0;
     ComboCounter = document.getElementById("Combocounter");
 
@@ -291,7 +324,15 @@
         comboLowerInterval = setInterval(() => {
             if (ComboValue > 0) {
                 ComboValue -= 1;
+                ComboSpeed += 1;
                 ComboCounter.textContent = "COMBO: " + ComboValue;
+                if (ComboSpeed == 10) {
+                    ComboSpeed = 0
+                    ComboValue = 0
+                    ComboCounter.textContent = "COMBO: " + ComboValue;
+                    clearInterval(comboLowerInterval);
+
+                }
             }
         }, 200);
     }
@@ -310,8 +351,13 @@
         clearInterval(comboLowerInterval);
         comboLowerTimeout = setTimeout(startLowering, 200);
     });
+
+
     // Achievement System
     function AnimateAchievement(text) {
+        if (isAchievementAnimating) return; // Prevent overlapping animations
+        isAchievementAnimating = true;
+
         // Reset any previous animation
         achievement.classList.remove("achievementanim", "achievementanim2");
         void achievement.offsetWidth; // force reflow
@@ -323,39 +369,23 @@
         // Start appear animation
         achievement.classList.add("achievementanim");
 
-        // After appear duration (match CSS, e.g., 1s), start disappear
+        // After appear duration (match CSS, 1.5s), start disappear
         setTimeout(() => {
             achievement.classList.remove("achievementanim");
             achievement.classList.add("achievementanim2");
 
-            // After disappear duration, hide element (match CSS, e.g., 1s)
+            // After disappear duration, hide element (match CSS, 1.5s)
             setTimeout(() => {
                 achievement.classList.remove("achievementanim2");
                 achievement.style.visibility = "hidden";
-            }, 1000); // disappear duration
-        }, 1000); // appear duration
+                AchievementQueue.shift();
+                isAchievementAnimating = false;
+                if (AchievementQueue.length > 0) {
+                    AnimateAchievement(AchievementQueue[0]);
+                }
+            }, 1500); // disappear duration
+        }, 1500); // appear duration
     }
-
-    // Second thought System
-    function SecondThought(Answer) {
-        if (Math.random() < 0.1) {
-            secondThoughtActive = true;
-            const messages = ["Wait its actually...", "On second thought...", "Wait...", "Hold up...", "Actually...", "Reconsidering...", "After a moment..."]
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            resultbar.textContent = "Maybe " + Number(Answer) + 5 + "?"
-            setTimeout(() => {
-                resultbar.textContent = messages[randomIndex]
-            }, 500);
-            
-            setTimeout(() => {
-                resultbar.textContent = Answer
-                secondThoughtActive = false;
-            }, 1200);
-        }
-    }
-
-
-
 
     const achievementname = document.getElementById("achievementname")
 
@@ -365,7 +395,11 @@
     const AchievementButton = document.getElementById("AchievementButton")
     const AchievementListOverlay = document.getElementById("AchievementListOverlay")
 
+    let AchievementQueue = [];
+
     let ObtainedAchievments = [];
+
+    let isAchievementAnimating = false;
 
     let Gamble2 = false;
 
@@ -387,21 +421,42 @@
     function Achievements() {
         if (CalcFirstUsed == true && !ObtainedAchievments.includes("So the journey begins..")) {
             ObtainedAchievments.push("So the journey begins..")
-            AnimateAchievement("So the journey begins..")
+            AchievementQueue.push("So the journey begins..")
         }
         if (Gamble2 == true && !ObtainedAchievments.includes("Lets go gambling!")) {
             ObtainedAchievments.push("Lets go gambling!")
-            AnimateAchievement("Let's go gambling!")
+            AchievementQueue.push("Lets go gambling!")
         }
         if (special2 == true && !ObtainedAchievments.includes("Must've been the wind")) {
             ObtainedAchievments.push("Must've been the wind")
-            AnimateAchievement("Must've been the wind")
+            AchievementQueue.push("Must've been the wind")
         }
         if (div0 == true && !ObtainedAchievments.includes("Nice try, buddy")) {
             ObtainedAchievments.push("Nice try, buddy")
-            AnimateAchievement("Nice try, buddy")
+            AchievementQueue.push("Nice try, buddy")
+        }
+        if (AchievementQueue.length > 0 && !isAchievementAnimating) {
+            AnimateAchievement(AchievementQueue[0]);
         }
         achievementlist.textContent = ObtainedAchievments.toString()
+    }
+
+    // Second thought System
+    function SecondThought(Answer) {
+        if (Math.random() < secondThouhtChance) {
+            secondThoughtActive = true;
+            const messages = ["Wait its actually...", "On second thought...", "Wait...", "Hold up...", "Actually...", "Reconsidering...", "After a moment..."]
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            resultbar.textContent = "Maybe " + Number(Answer) + 5 + "?"
+            setTimeout(() => {
+                resultbar.textContent = messages[randomIndex]
+            }, 500);
+            
+            setTimeout(() => {
+                resultbar.textContent = Answer
+                secondThoughtActive = false;
+            }, 1200);
+        }
     }
 
     // Gambling System
@@ -470,7 +525,7 @@
     
     button.addEventListener('click', () => {
         if (secondThoughtActive) return;
-        if (Math.random() > 0.1) {
+        if (Math.random() > IdkChance) {
             CalcFirstUsed = true
             if (dropdown.value == "+") {
                 resultbar.textContent = Number(num1.value) + Number(num2.value)
