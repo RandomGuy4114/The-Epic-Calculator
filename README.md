@@ -1,10 +1,9 @@
-![ezgif-3112658bfaa34a59](https://github.com/user-attachments/assets/42267ee0-1243-422d-9b10-551f02a517e7)
-
-
-*The epic calculator, the most useless way to do Math!*
-
-
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/074d1b24-aab8-4427-8148-90fbdc16afb6">
+</p>
+<p align="center">
+The epic calculator, the most useless way to do Math!
+</p>
 
 # Current Features:
 - Level System
