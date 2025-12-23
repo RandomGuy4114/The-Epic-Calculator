@@ -1,99 +1,16 @@
 <!DOCTYPE html>
 
+
 <html>
     <head>
         <style>
-            h1 {font-family: "Comic Sans";}
-            p {font-family: "Comic Sans";}
-            button {font-family: "Comic Sans";}
-            h2 {font-family: "Comic Sans";}
-            h3 {font-family: "Comic Sans";}
-            h4 {font-family: "Comic Sans";}
-            h5 {font-family: "Comic Sans";}
-            h6 {font-family: "Comic Sans";}
-            .title {
-                display: flex;
+
+            @font-face {
                 font-family: "Comic Sans";
-                justify-content: center;
-                align-items: center;
-            }
-            .textfield {
-                display: flex;
-                justify-content: center;
-                gap: 10px;   
-                width: 100%;
-                margin-top: 20px;
-                align-items: center;
-            }
-            
-            .wave span {
-                display: inline-block;
-                animation: 
-                    wave 1.6s ease-in-out infinite,
-                    rainbow 4s linear infinite;
-                animation-delay: calc(var(--i) * 0.08s);
+                src: url("Comic\ Sans\ MS.ttf");
             }
 
-            .wave span:nth-child(n) {
-                animation-delay: calc(var(--i) * 0.08s);
-            }
-            @keyframes wave {
-                0%   { transform: translateY(0);}
-                50%  { transform: translateY(-14px);}
-            }
-            .button:hover {
-                animation:
-                    rainbowbg 2s ease-in-out infinite,
-                    movingbutton 1s ease-in-out infinite;
-                color: white;
-                border-style: none;
-                border-radius: 2px;
-                box-shadow: 0 0 20px  red
-            }
-            .button {
-                animation: movingbutton 1s ease-in-out infinite;
-            }
-            .button.fast {
-                animation: movingbutton 0.1s ease-in-out infinite;
-            }
-            .dropdown {
-                animation: movingoperator 2s ease-in-out infinite;
-            }
-            .overlay {
-                width:50%;
-                height:50%;
-                position:fixed;
-                top:25%;
-                left:25%;
-                z-index:100;
-                background-color:#b1b1b1;
-                text-align:center;
-                border-radius: 10px;
-            }
-            .achievementoverlay {
-                width:50%;
-                height:100px;
-                position:fixed;
-                left:25%;
-                z-index:100;
-                background-color:#727272;
-                text-align:center;
-                border-radius: 5px;
-                border-style:solid;
-                border-color: #b1b1b1;
-                color: white;
-            }
-            .rainbowtext span {
-                animation: rainbow 0.5s linear infinite;
-                animation-delay: calc(var(--i) * 0.08s);
-            }
-            .achievementanim {
-                animation: appear 1.5s ease-in-out 1;
-            }
-            .achievementanim2 {
-                animation: dissappear 1.5s ease-in-out 1;
-            }
-            @keyframes rainbow {
+            @keyframes RainbowAnim {
                 0% { color: #ff0000; }
                 16% { color: #ff7f00; }
                 33% { color: #ffff00; }
@@ -102,572 +19,214 @@
                 83% { color: #4b0082; }
                 100% { color: #8f00ff; }
             }
-            @keyframes rainbowbg {
+            @keyframes TitleAnim {
+                0% {transform: translateY(0);}
+                50% {transform: translateY(-14px);}
+            }
+            @keyframes OperatorSpin {
+                0% {transform: rotate(-10deg);}
+                100% {transform: rotate(10deg);}
+            }
+            @keyframes ResultAnim {
+                8% {transform: translateX(-30px) rotate(-5deg);}
+            }
+            @keyframes ResultAnimRight {
+                8% {transform: translateX(30px) rotate(5deg);}
+            }
+
+
+            h1 {
+                text-align: center;
+                font-family: "Comic Sans";
+            }
+            p {
+                font-family: "Comic Sans";
+            }
+            button {
+                font-family: "Comic Sans";
+                font-size: 24px;
+                border-radius: 10px;
+                border-style: solid;
+                border-color: lightgray;
+                background-color: white;
+                padding: 10px;
+            }
+            .CalcButton {
+                width: 200px;
+            }
+            .Shake {
+                animation: shake 0.5s ease-in-out;
+            }
+            textarea {
+                font-family: "Comic Sans";
+                resize: none;
+                width: 100px;
+                height: 100px;
+                font-size: 71px;
+                border-radius: 10px;
+                border-style: solid;
+                text-align: center;
+                border-color: lightgray;
+                white-space: nowrap;
+            }
+            .TextAreas {
+                text-align: center;
+                display: flex;
+                justify-content: center;
                 
-                0% { background-color: #ff0000; box-shadow: 0 0 20px  #ff0000}
-                16% { background-color: #ff7f00; box-shadow: 0 0 20px  #ff7f00}
-                33% { background-color: #ffff00; box-shadow: 0 0 20px  #ffff00}
-                50% { background-color: #00ff00; box-shadow: 0 0 20px  #00ff00}
-                66% { background-color: #0000ff; box-shadow: 0 0 20px #0000ff}
-                83% { background-color: #4b0082; box-shadow: 0 0 20px  #4b0082}
-                100% { background-color: #8f00ff; box-shadow: 0 0 20px  #8f00ff}
             }
-            @keyframes movingoperator {
-                0% {transform: rotate(-10deg)}
-                50% {transform: rotate(10deg);}
-                100% {transform: rotate(-10deg);}
+            .Num1anim {
+                animation: ResultAnim 1s 1 linear;
             }
-            @keyframes movingbutton {
-                0% {transform: rotate(-2deg)}
-                50% {transform: rotate(2deg);}
-                100% {transform: rotate(-2deg);}
+            .Num2anim {
+                animation: ResultAnimRight 1s 1 linear;
             }
-            @keyframes shake {
-                100% {transform: scale(10, 10); opacity: 0;}
-            }
-            @keyframes appear {
-                0% {transform: translateY(-50px); opacity: 0;}
-                50% {transform: translateY(2px); opacity: 1;}
-                100% {transform: translateY(2px);}
-            }
-            @keyframes dissappear {
-                0% {transform: translateY(2px);}
-                50% {transform: translateY(-50px); opacity: 0;}
-                100% {transform: translateY(-50px); opacity: 0;}
+            .OperatorArea {
+                text-align: center;
+                display: flex;
+                justify-content: center;
             }
 
-            @font-face {
-                font-family: 'Comic Sans';
-                src:
-                    url('Comic Sans MS.ttf') format('truetype');
-                font-weight: normal;
-                font-style: normal;
-            }
+            .title span {
+                justify-content: center;
+                display: inline-block;
+                animation-name: RainbowAnim, TitleAnim;
+                animation-duration: 3s, 1.6s;
+                animation-iteration-count: infinite, infinite;
+                animation-timing-function: ease-in-out, ease-in-out;
+                animation-direction: normal, normal;
+                animation-delay: calc(0.08s * var(--i));
+                font-size: 50px;
 
+            }
+            .Operator {
+                font-size: 36px;
+                margin: 20px;
+                display: flex;
+                width: 60px;
+                height: 60px;
+                text-align: center;
+                font-family: "Comic Sans";
+                appearance: none;
+                justify-content: center;
+                background-color: white;
+                border-color: lightgray;
+                border-radius: 6px;
+                border-style: solid;
+                animation: OperatorSpin 0.9s infinite ease-in-out alternate;
+            }
+            .ResultArea {
+                display: flex;
+                width: 450px;
+                height: 50px;
+                font-size: 24px;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid lightgray;
+                margin:auto;
+                border-radius: 6px;
+                
+            }
         </style>
     </head>
-
 </html>
 
-<body id="bg">
-    <div id="settingsoverlay" class="overlay" style="text-align: center; visibility: hidden;">
-        <button id= "closesettings" style="font-family: Comic Sans; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
-        <h1 style="font-family: Comic Sans;">SETTINGS</h1>
-        <button class="rainbowtext" id="CrazyButton" style="font-family: Comic Sans;">
-            <span style="--i:0">C</span>
-            <span style="--i:1">R</span>
-            <span style="--i:2">A</span>
-            <span style="--i:3">Z</span>
-            <span style="--i:4">Y</span>
-            &ensp;
-            <span style="--i:5">M</span>
-            <span style="--i:6">O</span>
-            <span style="--i:7">D</span>
-            <span style="--i:8">E</span>
-            <span>(Epilepsy Warning)</span>
-        </button>
-        <button id="DifficultyButton">Difficulty:
-            <span style="color: lime; --i:1">Easy</span>
-        </button>
-    </div>
-    <div id="achievement" class="achievementoverlay" style="visibility: hidden;">
-        <p style="font-size: 17px;">Achievement Get!</p>
-        <p id="achievementname">Placeholder</p>
-    </div>
-    <div id="RebirthOverlay" class="overlay" style="text-align: center; visibility: hidden;">
-        <button id= "closerebirth" style="font-family: Comic Sans; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
-        <h1>Are you sure you want to</h1><h1 style="color: red; text-shadow: 0px 0px 20px rgba(255, 0, 0, 0.824);">Rebirth?</h1>
-        <p>Rebirth Removes all your progress (even though refreshing the website does the same thing :/)</p>
-        <button id="RebirthConfirm">Yes, I'm sure I want to rebirth.</button>
-    </div>
-    <div id="AchievementListOverlay" class="overlay" style="text-align: center; visibility: hidden;">
-        <button id= "CloseAchievementListOverlay" style="font-family: Comic Sans; position: fixed; left: 71.3%; border-radius: 5px; border-style: none; background-color: red; color: white;">X</button>
-        <h1>ACHIEVEMENTS</h1>
-        <p id="achievementlist">Placeholder</p>
-    </div>
-    <div class="title" id="title">
-        <h1 class="wave">
-            <span style="--i:0">E</span>
-            <span style="--i:1">P</span>
-            <span style="--i:2">I</span>
-            <span style="--i:3">C</span>
-            &ensp;
-            <span style="--i:4">C</span>
-            <span style="--i:5">A</span>
-            <span style="--i:6">L</span>
-            <span style="--i:7">C</span>
-            <span style="--i:8">U</span>
-            <span style="--i:9">L</span>
-            <span style="--i:10">A</span>
-            <span style="--i:11">T</span>
-            <span style="--i:12">O</span>
-            <span style="--i:13">R</span>
-        </h1>
-    </div>
-    <div class="textfield">
-        <div class= "Scorebox"style="width:180px; height:10px; border:1px solid black; padding:10px; font-family: Comic Sans; display: flex; align-items: center; overflow: hidden">
-            <p>Score:</p>
-            &ensp;
-            <p id="scoretext">0</p>
-        </div>
-    </div>
-    </div>
-    <div class="textfield">
-        <div id="resultbar" style="width:200px; height:20px; border:1px solid black; padding:10px; font-family: Comic Sans;"></div>
-    </div>
-    <div class="textfield">
-        <input type="number" id = "num1" class="num1"style="resize: none; font-size: 35px; width: 50px; height: 50px; font-family: Comic Sans; text-align: center"></textarea>
-        <select class="dropdown" id= "dropdown" style="width: 50px; height: 50px; text-align: center; border-style: none; font-size: xx-large; background-color: white; font-family: Comic Sans">
+
+<body id="Body">
+
+    <!-- Title -->
+
+    <h1 class="title">
+        <span style="--i:1">E</span>
+        <span style="--i:2">P</span>
+        <span style="--i:3">I</span>
+        <span style="--i:4">C</span>
+        &nbsp;
+        <span style="--i:5">C</span>
+        <span style="--i:6">A</span>
+        <span style="--i:7">L</span>
+        <span style="--i:8">C</span>
+        <span style="--i:9">U</span>
+        <span style="--i:10">L</span>
+        <span style="--i:11">A</span>
+        <span style="--i:12">T</span>
+        <span style="--i:13">O</span>
+        <span style="--i:14">R</span>
+    </h1>
+
+    <!-- Result Area -->
+
+    <h1 class="ResultArea" id="ResultArea">hello</h1>
+
+    &nbsp;
+
+    <!-- Text Areas -->
+
+    <div class="TextAreas">
+        <textarea type="number" id="firstNumber" class="Num1"></textarea>
+        <select name="Operator" class="Operator" id="Operator">
             <option value="+">+</option>
             <option value="-">-</option>
-            <option value="x">x</option>
+            <option value="*">*</option>
             <option value="/">/</option>
-            <option value="?">?</option>
         </select>
-        <input type="number" id = "num2"class="num2" style="resize: none; font-size: 35px; width: 50px; height: 50px; font-family: Comic Sans; text-align: center;"></textarea>
+        <textarea type="number" id="secondNumber" class="Num2"></textarea>
     </div>
-    <br>
-    <div style="text-align: center;">
-        <button class="button" id="button" style="width: 190px; height: 40px; font-family: Comic Sans;">RESULT</button>
+    &nbsp;
+
+    <!-- Result Button -->
+
+    <div class="OperatorArea">
+        <button class="CalcButton" id="CalcButton">Calculate!</button>
     </div>
-    <p id="levelcounter" style="font-family: Comic Sans; text-align: center;">Current Level: 0</p>
-    <p id="levelreqcounter" style="font-family: Comic Sans; text-align: center;">Current Level Requirement: 0</p>
-    <p id="CalcBuxCounter" style="font-family: Comic Sans; text-align: center;">CalcBux Amount: 0</p>
-    <button id= "SettingsButton" style="position: fixed; bottom: 0;font-family: Comic Sans;">Settings</button>
-    <button id= "Rebirth" style="position: fixed; bottom: 0;font-family: Comic Sans; left: 190px; visibility: hidden;">Rebirth</button>
-    <button id= "AchievementButton" style="position: fixed; bottom: 0;font-family: Comic Sans; left: 80px;">Achievements</button>
-    <p id="Combocounter" style="font-family: Comic Sans; text-align: center;">COMBO: 0</p>
+
+    <!-- Audio -->
 </body>
+<script src="https://unpkg.com/gsap@3/dist/MotionPathPlugin.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
 <script>
-    const button = document.getElementById("button")
-    const num1 = document.getElementById("num1")
-    const num2 = document.getElementById("num2")
-    const resultbar = document.getElementById("resultbar")
-    const dropdown = document.getElementById("dropdown")
-    const scoretext = document.getElementById("scoretext")
-    const levelcounter = document.getElementById("levelcounter")
-    const SettingsButton = document.getElementById("SettingsButton")
-    const CrazyButton = document.getElementById("CrazyButton")
-    const title = document.getElementById("title")
-    const bg = document.getElementById("bg")
-    const closesettings = document.getElementById("closesettings")
-    const settingsoverlay = document.getElementById("settingsoverlay")
-    const closerebirth = document.getElementById("closerebirth")
-    const RebirthOverlay = document.getElementById("RebirthOverlay")
-    const Rebirthbutton = document.getElementById("Rebirth")
-    const RebirthConfirm = document.getElementById("RebirthConfirm")
-    const levelreqcounter = document.getElementById("levelreqcounter")
-    const CalcBuxCounter = document.getElementById("CalcBuxCounter")
+    const CalcButton = document.getElementById("CalcButton");
+    const ResultArea = document.getElementById("ResultArea");
+    const Body = document.getElementById("Body");
+    let CalcDebounce = false
 
-    let scorereq = 5000
-    let score = 0
-    let result;
-    let CurrentLevel = 0;
-    let RebirthReq = 5;
-    let RebirthNum = 0;
-    let rainbowfast = false;
-    let CalcBux = 0;
-    let CalcStress = 0;
-    let ButtonDebounce = false;
-    let secondThoughtActive = false;
+    CalcButton.addEventListener("click", function() {
+        if (CalcDebounce === false) {
+            CalcDebounce = true
+            const firstNumber = document.getElementById("firstNumber");
+            const secondNumber = document.getElementById("secondNumber");
 
-    levelreqcounter.textContent = "Current Level Requirement: " + scorereq
-    function getRandomColor() {
-    // Generates a random hex color
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-    }
-    // Difficulty System
-    let secondThouhtChance = 0.1;
-    let IdkChance = 0.1;
+            const operator = document.getElementById("Operator").value;
+            gsap.to(["#CalcButton"], {
+                scale: 0.92,
+                ease: "power1.inout",
+                duration: 0.2
+            });
+            gsap.to(["#secondNumber", "#firstNumber"], {
+                scale: 1.2,
+                ease: "power1.inout",
+                duration: 0.2
+            });
+            gsap.to(["#secondNumber", "#firstNumber", "#CalcButton"], {
+                scale: 1,
+                ease: "bounce.out",
+                delay: 0.2
+            });
+            let result;
 
-    const DifficultyButton = document.getElementById("DifficultyButton"); 
-    let CurrentDifficulty = "Easy";
-    DifficultyButton.addEventListener("click", () => {
-        if (DifficultyButton.textContent.includes("Easy")) {
-            DifficultyButton.innerHTML = 'Difficulty: <span style="color: orange; --i:1">Medium</span>';
-            scorereq *= 1.5
-            CurrentDifficulty = "Medium"
-            secondThouhtChance *= 0.5
-            IdkChance *= 0.2
-        } else if (DifficultyButton.textContent.includes("Medium")) {
-            DifficultyButton.innerHTML = 'Difficulty: <span style="color: red; --i:1">Hard</span>';
-            scorereq *= 2
-            CurrentDifficulty = "Hard"
-            secondThouhtChance *= 1.5
-            IdkChance *= 0.4
-        } else if (DifficultyButton.textContent.includes("Hard")) {
-            DifficultyButton.innerHTML = 'Difficulty: <span style="color: lime; --i:1">Easy</span>';
-            scorereq /= 3
-            secondThouhtChance /= 0.75
-            IdkChance /= 0.6
-            CurrentDifficulty = "Easy"
-        }
-        levelreqcounter.textContent = "Current Level Requirement: " + Math.round(scorereq)
-    });
-
-
-
-    // Combo System
-    ComboSpeed = 0;
-    ComboValue = 0;
-    ComboCounter = document.getElementById("Combocounter");
-
-    var comboLowerTimeout;
-    var comboLowerInterval;
-
-    function startLowering() {
-        comboLowerInterval = setInterval(() => {
-            if (ComboValue > 0) {
-                ComboValue -= 1;
-                ComboSpeed += 1;
-                ComboCounter.textContent = "COMBO: " + ComboValue;
-                if (ComboSpeed == 10) {
-                    ComboSpeed = 0
-                    ComboValue = 0
-                    ComboCounter.textContent = "COMBO: " + ComboValue;
-                    clearInterval(comboLowerInterval);
-
-                }
+            if (operator === "+") {
+                result = Number(firstNumber.value) + Number(secondNumber.value);
+            } else if (operator === "-") {
+                result = Number(firstNumber.value) - Number(secondNumber.value);
+            } else if (operator === "*") {
+                result = Number(firstNumber.value) * Number(secondNumber.value);
+            } else if (operator === "/") {
+                result = Number(firstNumber.value) / Number(secondNumber.value);
             }
-        }, 200);
-    }
-
-    num1.addEventListener('input', () => {
-        ComboValue += 1;
-        ComboCounter.textContent = "COMBO: " + ComboValue;
-        clearTimeout(comboLowerTimeout);
-        clearInterval(comboLowerInterval);
-        comboLowerTimeout = setTimeout(startLowering, 200);
-    });
-    num2.addEventListener('input', () => {
-        ComboValue += 1;
-        ComboCounter.textContent = "COMBO: " + ComboValue;
-        clearTimeout(comboLowerTimeout);
-        clearInterval(comboLowerInterval);
-        comboLowerTimeout = setTimeout(startLowering, 200);
-    });
-
-
-    // Achievement System
-    function AnimateAchievement(text) {
-        if (isAchievementAnimating) return; // Prevent overlapping animations
-        isAchievementAnimating = true;
-
-        // Reset any previous animation
-        achievement.classList.remove("achievementanim", "achievementanim2");
-        void achievement.offsetWidth; // force reflow
-
-        // Set text and show
-        achievementname.textContent = text;
-        achievement.style.visibility = "visible";
-
-        // Start appear animation
-        achievement.classList.add("achievementanim");
-
-        // After appear duration (match CSS, 1.5s), start disappear
-        setTimeout(() => {
-            achievement.classList.remove("achievementanim");
-            achievement.classList.add("achievementanim2");
-
-            // After disappear duration, hide element (match CSS, 1.5s)
+            ResultArea.textContent = result;
             setTimeout(() => {
-                achievement.classList.remove("achievementanim2");
-                achievement.style.visibility = "hidden";
-                AchievementQueue.shift();
-                isAchievementAnimating = false;
-                if (AchievementQueue.length > 0) {
-                    AnimateAchievement(AchievementQueue[0]);
-                }
-            }, 1500); // disappear duration
-        }, 1500); // appear duration
-    }
-
-    const achievementname = document.getElementById("achievementname")
-
-    const achievementlist = document.getElementById("achievementlist")
-    const achievement = document.getElementById("achievement")
-    const CloseAchievementListOverlay = document.getElementById("CloseAchievementListOverlay")
-    const AchievementButton = document.getElementById("AchievementButton")
-    const AchievementListOverlay = document.getElementById("AchievementListOverlay")
-
-    let AchievementQueue = [];
-
-    let ObtainedAchievments = [];
-
-    let isAchievementAnimating = false;
-
-    let Gamble2 = false;
-
-    let special2 = false;
-
-    let div0 = false;
-
-
-    let CalcFirstUsed = false;
-    AchievementButton.addEventListener("click", () => {
-        AchievementListOverlay.style.visibility = "visible"
-    });
-
-    CloseAchievementListOverlay.addEventListener("click", () => {
-        AchievementListOverlay.style.visibility = "hidden"
-    });
-
-
-    function Achievements() {
-        if (CalcFirstUsed == true && !ObtainedAchievments.includes("So the journey begins..")) {
-            ObtainedAchievments.push("So the journey begins..")
-            AchievementQueue.push("So the journey begins..")
+                CalcDebounce = false
+            }, 900);
         }
-        if (Gamble2 == true && !ObtainedAchievments.includes("Lets go gambling!")) {
-            ObtainedAchievments.push("Lets go gambling!")
-            AchievementQueue.push("Lets go gambling!")
-        }
-        if (special2 == true && !ObtainedAchievments.includes("Must've been the wind")) {
-            ObtainedAchievments.push("Must've been the wind")
-            AchievementQueue.push("Must've been the wind")
-        }
-        if (div0 == true && !ObtainedAchievments.includes("Nice try, buddy")) {
-            ObtainedAchievments.push("Nice try, buddy")
-            AchievementQueue.push("Nice try, buddy")
-        }
-        if (AchievementQueue.length > 0 && !isAchievementAnimating) {
-            AnimateAchievement(AchievementQueue[0]);
-        }
-        achievementlist.textContent = ObtainedAchievments.toString()
-    }
-
-    // Second thought System
-    function SecondThought(Answer) {
-        if (Math.random() < secondThouhtChance) {
-            secondThoughtActive = true;
-            const messages = ["Wait its actually...", "On second thought...", "Wait...", "Hold up...", "Actually...", "Reconsidering...", "After a moment..."]
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            resultbar.textContent = "Maybe " + Number(Answer) + 5 + "?"
-            setTimeout(() => {
-                resultbar.textContent = messages[randomIndex]
-            }, 500);
-            
-            setTimeout(() => {
-                resultbar.textContent = Answer
-                secondThoughtActive = false;
-            }, 1200);
-        }
-    }
-
-    // Gambling System
-
-    const RandomNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-    let GambleDebounce = false
-
-    function task(num, time) {
-        setTimeout(() => {
-            resultbar.textContent = num
-        }, time);
-    }
-
-    function gamble(money, bet) {
-        GambleDebounce = true
-        CalcBux -= money
-        CalcBuxCounter.textContent = "CalcBux Amount: " + CalcBux
-        resultbar.style.textAlign = "Center"
-        const shuffledArray = RandomNumbers.sort(() => Math.random() - 0.5);
-        shuffledArray.forEach((Num, Index) => {
-            task(Num, Index * 70)
-        });
-        setTimeout(() => {
-            if (bet == resultbar.textContent) {
-                resultbar.textContent = "Winner!"
-                CalcBux += money * 2
-                CalcBuxCounter.textContent = "CalcBux Amount: " + CalcBux
-            } else {
-                resultbar.textContent = "Loser!"
-            }
-            resultbar.style.textAlign = "Left"
-            GambleDebounce = false
-        }, 1000);
-    }
-
-    // Calculator
-
-
-    function LevelSystem() {
-        if (result !== "ERROR") {
-            if (result == "EG") {
-                score += 50
-                scoretext.textContent = score
-            } else {
-                score += Math.round(result / 50)
-                scoretext.textContent = score
-            }
-        } else {
-            score -= 5
-            scoretext.textContent = score
-        }
-        if (score >= scorereq) {
-            CurrentLevel += 1
-            scorereq *= 2
-            score = 0
-            scoretext.textContent = score
-            levelcounter.textContent = "Current Level: " + CurrentLevel
-        }
-        if (CurrentLevel >= RebirthReq) {
-            Rebirthbutton.style.visibility = "visible"
-        }
-        levelreqcounter.textContent = "Current Level Requirement: " + scorereq
-        CalcBux += 5
-        CalcBuxCounter.textContent = "CalcBux Amount: " + CalcBux
-    }
-    
-    button.addEventListener('click', () => {
-        if (secondThoughtActive) return;
-        if (Math.random() > IdkChance) {
-            CalcFirstUsed = true
-            if (dropdown.value == "+") {
-                resultbar.textContent = Number(num1.value) + Number(num2.value)
-                result = num1.value + num2.value
-                if (num1.value == 6 && num2.value == 7) {
-                    resultbar.textContent = "67"
-                    result = "EG"
-                    special2 = true
-                }
-                if (num1.value == 9 && num2.value == 10) {
-                    resultbar.textContent = "21"
-                    result = "EG"
-                    special2 = true
-                }
-                LevelSystem()
-                CalcStress = 0
-                SecondThought(resultbar.textContent)
-            }
-            if (dropdown.value == "-") {
-                CalcFirstUsed = true
-                resultbar.textContent = Number(num1.value) - Number(num2.value)
-                result = num1.value - num2.value
-                LevelSystem()
-                CalcStress = 0
-                SecondThought(resultbar.textContent)
-            }
-            if (dropdown.value == "x") {
-                CalcFirstUsed = true
-                resultbar.textContent = Number(num1.value) * Number(num2.value)
-                result = num1.value * num2.value
-                LevelSystem()
-                CalcStress = 0
-                SecondThought(resultbar.textContent)
-            }
-            if (dropdown.value == "/") {
-                CalcFirstUsed = true
-                resultbar.textContent = Number(num1.value) / Number(num2.value)
-                result = num1.value / num2.value
-                if (num2.value == 0) {
-                    resultbar.textContent = "are you serious??? 💀";
-                    result = "ERROR";
-                    CalcStress += 0.05
-                    div0 = true
-                }
-                CalcStress += 0.02
-                LevelSystem()
-                SecondThought(resultbar.textContent)
-            }
-        } else {
-            const messages = ["I'm not sure...", "idk maybe 2 or 5?", "I actually dont know", "???", "what even is this?", "Nope", "Not answering that"]
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            resultbar.textContent = messages[randomIndex]
-            result = "EG"
-            LevelSystem()
-        }
-        if (CalcStress >= 1) {
-            const messages = ["I CANT TAKE IT ANYMORE!", "please stop dividing...", "im too stressed for this...", "ENOUGH!", "STOP!!", "try something else please.."]
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            resultbar.textContent = messages[randomIndex]
-        }
-        if (dropdown.value == "?") {
-            Gamble2 = true
-            if (GambleDebounce == false) {
-                CalcStress = 0
-                 if (num1.value >=  0 && num1.value <= 10 && num2.value <= 100 && num2.value > 0 && CalcBux >= num2.value) {
-                    gamble(num2.value, num1.value)
-                } else if (CalcBux < num2.value) {
-                    resultbar.textContent = "Not enough money!"
-                } else {
-                    resultbar.textContent = "F1 = Bet / F2 = Money Bet"
-                }
-            }
-        }
-        Achievements()
-    });
-
-    // Crazy Mode Toggle
-    CrazyButton.addEventListener("click", () => {
-        rainbowfast = !rainbowfast
-        const buttonspeed = rainbowfast ? "0.1s": "1s"
-        const speed = rainbowfast ? "0.1s": "4s";
-        const wavefast = rainbowfast ? "0.5s": "1.6s"
-        document.querySelectorAll(".wave span").forEach(s => {
-        s.style.animation = `
-            wave ${wavefast} ease-in-out infinite,
-            rainbow ${speed} linear infinite
-        `;
-        s.style.animationDelay = `calc(var(--i) * 0.08s)`;
-        });
-        document.querySelectorAll(".button").forEach(btn => {
-            btn.classList.toggle("fast", rainbowfast);
-        });
-        if (rainbowfast) {
-        bgInterval = setInterval(() => {
-            document.body.style.backgroundColor = getRandomColor();
-        }, 10);
-        } else {
-            clearInterval(bgInterval);
-            document.body.style.backgroundColor = ""; // resets to default
-    }
-    });
-    // Settings Menu Toggles
-    SettingsButton.addEventListener("click", () => {
-        settingsoverlay.style.visibility = "visible"
-    });
-
-    closesettings.addEventListener("click", () => {
-        settingsoverlay.style.visibility = "hidden"
-    });
-    // Rebirth Menu Toggles
-    RebirthConfirm.addEventListener("click", () => {
-        RebirthConfirm.disabled = true
-        RebirthOverlay.style.animation = "none";
-        void RebirthOverlay.offsetWidth;
-        RebirthOverlay.style.animation = "shake 2s 1"
-        CurrentLevel = 0
-        score = 0
-        RebirthNum += 1
-        scorereq = 2000 / (RebirthNum * 2)
-        scoretext.textContent = score
-        levelcounter.textContent = "Current Level: " + CurrentLevel
-        Rebirthbutton.style.visibility = "hidden"
-        RebirthReq += 5
-        RebirthNum += 1
-        levelreqcounter.textContent = "Current Level Requirement: " + scorereq
-        RebirthOverlay.addEventListener("animationend", () => {
-            RebirthConfirm.disabled = false
-            RebirthOverlay.style.visibility = "hidden"
-        }, {once:true});
-    });
-    Rebirthbutton.addEventListener("click", () => {
-        RebirthOverlay.style.visibility = "visible"
-    });
-    closerebirth.addEventListener("click", () => {
-        RebirthOverlay.style.visibility = "hidden"
-    });
-    document.addEventListener('mousemove', function(event) {
-
-        const x = event.clientX;
-        const y = event.clientY;
-        const pageX = event.pageX;
-        const pageY = event.pageY;
-        
     });
 </script>
