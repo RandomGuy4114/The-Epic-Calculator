@@ -127,13 +127,46 @@
                 border-radius: 6px;
                 
             }
+            .CalcBuxAmount {
+                font-size: 30px;
+            }
+            .UpgradeButton {
+                height: 40px;
+                width: 150px;
+                font-size: 15px;
+            }
+            .TopDiv {
+                z-index: 2;
+                position: absolute;
+                width: 500px;
+                height: 300px;
+                border: 1px solid black;
+                border-radius: 8px;
+                background-color: white;
+                top: 20%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+            .UpgradeListButton {
+                height: 45px;
+                font-size: 15px;
+                display: block;
+            }
         </style>
     </head>
 </html>
 
 
 <body id="Body">
-
+    <div class="OperatorArea">
+        <div class="TopDiv" id="UpgradesArea" style="visibility: hidden;">
+            <h1>UPGRADES:</h1>
+            <button class="UpgradeListButton" id="GamblePurchaseButton">GAMBLING: 100 CALCBUX</button>
+            <button class="UpgradeListButton" id="CloseUpgradesButton">CLOSE</button>
+        </div>
+    </div>
     <!-- Title -->
 
     <h1 class="title">
@@ -169,6 +202,7 @@
             <option value="-">-</option>
             <option value="*">*</option>
             <option value="/">/</option>
+            <option value="?" id="GamblingButton" disabled>?</option>
         </select>
         <textarea type="number" id="secondNumber" class="Num2"></textarea>
     </div>
@@ -179,7 +213,16 @@
     <div class="OperatorArea">
         <button class="CalcButton" id="CalcButton">Calculate!</button>
     </div>
+    &nbsp;
+    <!-- Upgrades Button -->
+    <div class="TextAreas">
+        <button class="UpgradeButton" id="UpgradeButton">UPGRADES</button>
+     </div>
 
+    <!-- CalcBux Text -->
+    <div class="TextAreas">
+        <p class="CalcBuxAmount" id="CalcBux">CalcBux Amount: 5$</p>
+    </div>
     <!-- Audio -->
 </body>
 <script src="https://unpkg.com/gsap@3/dist/MotionPathPlugin.min.js"></script>
@@ -188,15 +231,52 @@
     const CalcButton = document.getElementById("CalcButton");
     const ResultArea = document.getElementById("ResultArea");
     const Body = document.getElementById("Body");
-    let CalcDebounce = false
-
+    const CalcBux = document.getElementById("CalcBux")
+    const UpgradeButton = document.getElementById("UpgradeButton")
+    let CalcBuxAmount = 100;
+    let CalcDebounce = false;
+    CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+    let GamblingEnabled = false;
+    let BaseCalcBuxAmount = 5;
+    let Results = []
+    let Div0 = false;
     CalcButton.addEventListener("click", function() {
+
+        const firstNumber = document.getElementById("firstNumber");
+        const secondNumber = document.getElementById("secondNumber");
+
+        const operator = document.getElementById("Operator").value;
+        function AddCalcBux() {
+            console.log(firstNumber.value + operator + secondNumber.value)
+            if (!Results.includes(firstNumber.value + operator + secondNumber.value)) {
+                if (operator === "+") {
+                    CalcBuxAmount += BaseCalcBuxAmount
+                } else if (operator === "-") {
+                    CalcBuxAmount += BaseCalcBuxAmount +2
+                } else if (operator === "*") {
+                    CalcBuxAmount += BaseCalcBuxAmount + 4
+                } else if (operator === "/") {
+                    if (Div0) {
+                        CalcBuxAmount -= BaseCalcBuxAmount
+                        Div0 = false;
+                    } else {
+                        CalcBuxAmount += BaseCalcBuxAmount + 6
+                    }
+                }
+            } else {
+                if (Div0) {
+                    CalcBuxAmount -= BaseCalcBuxAmount + 1000
+                    Div0 = false;
+                }
+                CalcBuxAmount += 2
+            }
+            if (CalcBuxAmount <= 0) {
+                CalcBuxAmount = 0
+            }
+        }
+
         if (CalcDebounce === false) {
             CalcDebounce = true
-            const firstNumber = document.getElementById("firstNumber");
-            const secondNumber = document.getElementById("secondNumber");
-
-            const operator = document.getElementById("Operator").value;
             gsap.to(["#CalcButton"], {
                 scale: 0.92,
                 ease: "power1.inout",
@@ -216,17 +296,120 @@
 
             if (operator === "+") {
                 result = Number(firstNumber.value) + Number(secondNumber.value);
+                ResultArea.textContent = result;
+
+
             } else if (operator === "-") {
                 result = Number(firstNumber.value) - Number(secondNumber.value);
+                ResultArea.textContent = result;
+
+
             } else if (operator === "*") {
                 result = Number(firstNumber.value) * Number(secondNumber.value);
+                ResultArea.textContent = result;
+
+
             } else if (operator === "/") {
                 result = Number(firstNumber.value) / Number(secondNumber.value);
+                if (secondNumber.value === "0") {
+                    result = "Are you serious???"
+                    Div0 = true;
+                }
+                ResultArea.textContent = result;
+
+
+
+            } else if (operator === "?") {
+
+
+                if (GamblingEnabled) {
+                    function sleep(ms) {
+                        return new Promise(resolve => setTimeout(resolve, ms));
+                    }
+
+                    let numstomix = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+                    const result1 = [...numstomix].sort(() => Math.random() - 0.5);
+                    const ChosenNumber = firstNumber.value
+                    const MoneyBet = secondNumber.value
+                    function sleep(ms) {
+                        return new Promise(resolve => setTimeout(resolve, ms));
+                    }
+                    async function displayNumbers() {
+                        for (let i = 0; i < result1.length; i++) {
+                            const item1 = result1[i];
+                                
+                            ResultArea.textContent = `${item1}`;
+                                
+                            await sleep(50);
+                        }
+                    }
+                    if (MoneyBet <= CalcBuxAmount && MoneyBet > 0 && ChosenNumber <= 9 && ChosenNumber >= 0) {
+                        CalcBuxAmount -= MoneyBet
+                        displayNumbers()
+                        setTimeout(() => {
+                            if (Number(ChosenNumber) == ResultArea.textContent) {
+                                ResultArea.textContent = "Winner!"
+                                CalcBuxAmount += MoneyBet * 2
+                            } else {
+                                ResultArea.textContent = "Loser!"
+                            }
+                        }, 900);
+                    } else if (MoneyBet > CalcBuxAmount) {
+                        ResultArea.textContent = "Not Enough Money!"
+                    } else if (ChosenNumber >= 9 || ChosenNumber <= 0) {
+                        ResultArea.textContent = "Invalid Number!"
+                    } else if (MoneyBet <= 0) {
+                        ResultArea.textContent = "You Can't Bet That Amount Of Money!"
+                    }
+                }
+
+
             }
-            ResultArea.textContent = result;
+            console.log(Results)
+            AddCalcBux()
+            Results.push(firstNumber.value + operator + secondNumber.value)
+            if (Results.length > 5) {
+                Results.shift()
+            }
+            CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
             setTimeout(() => {
                 CalcDebounce = false
+                CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+            }, 500);
+        }
+        
+    });
+    let EnabledUpgrades = []
+    const GamblePurchaseButton = document.getElementById("GamblePurchaseButton");
+    const CloseUpgradesButton = document.getElementById("CloseUpgradesButton");
+    const UpgradesArea = document.getElementById("UpgradesArea")
+    const GamblingButton = document.getElementById("GamblingButton")
+        
+    GamblePurchaseButton.addEventListener("click", function() {
+        if (CalcBuxAmount >= 100) {
+            GamblePurchaseButton.disabled = true;
+            GamblePurchaseButton.textContent = "Purchased!"
+            GamblingButton.disabled = false
+            GamblingEnabled = true
+            CalcBuxAmount -= 100
+            CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+            setTimeout(() => {
+                GamblePurchaseButton.textContent = "GAMBLING: 100 CALCBUX"
+            }, 900);
+        } else {
+            GamblePurchaseButton.textContent = "Not Enough Money!"
+            GamblePurchaseButton.disabled = true
+            setTimeout(() => {
+                GamblePurchaseButton.textContent = "GAMBLING: 100 CALCBUX"
+                GamblePurchaseButton.disabled = false
             }, 900);
         }
+    });
+
+    CloseUpgradesButton.addEventListener("click", function() {
+        UpgradesArea.style.visibility = "hidden"
+    });
+    UpgradeButton.addEventListener("click", function() {
+        UpgradesArea.style.visibility = "visible"
     });
 </script>
