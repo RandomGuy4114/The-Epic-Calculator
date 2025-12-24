@@ -8,6 +8,10 @@ The epic calculator, the most useless way to do Math!
 # Current Features:
 - Simple Math
 - Cool Effects
+- A Money System
+- Gambling 🤑
+- Upgrades (Only 1 rn lol)
+- And more yet to come!
 
 # Why did I make this?
 This is a question you might be asking yourself, and I understand it, who would spend hundreds of lines of code to create a calculator that doesnt even serve its purpose? And I say: *Why not?*
