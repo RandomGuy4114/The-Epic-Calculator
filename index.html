@@ -164,6 +164,7 @@
         <div class="TopDiv" id="UpgradesArea" style="visibility: hidden;">
             <h1>UPGRADES:</h1>
             <button class="UpgradeListButton" id="GamblePurchaseButton">GAMBLING: 100 CALCBUX</button>
+            <button class="UpgradeListButton" id="AccuracyPurchaseButton">100% CONFIDENCY: 200 CALCBUX</button>
             <button class="UpgradeListButton" id="CloseUpgradesButton">CLOSE</button>
         </div>
     </div>
@@ -185,11 +186,11 @@
         <span style="--i:12">T</span>
         <span style="--i:13">O</span>
         <span style="--i:14">R</span>
-    </h1>
+    </h1> <!-- This may look as inefficient as shit, and you're right, it is. -->
 
     <!-- Result Area -->
 
-    <h1 class="ResultArea" id="ResultArea">hello</h1>
+    <h1 class="ResultArea" id="ResultArea">v2.2</h1>
 
     &nbsp;
 
@@ -218,7 +219,6 @@
     <div class="TextAreas">
         <button class="UpgradeButton" id="UpgradeButton">UPGRADES</button>
      </div>
-
     <!-- CalcBux Text -->
     <div class="TextAreas">
         <p class="CalcBuxAmount" id="CalcBux">CalcBux Amount: 5$</p>
@@ -236,12 +236,71 @@
     let CalcBuxAmount = 100;
     let CalcDebounce = false;
     CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
-    let GamblingEnabled = false;
+    let EnabledUpgrades = []
     let BaseCalcBuxAmount = 5;
     let Results = []
     let Div0 = false;
-    CalcButton.addEventListener("click", function() {
+    let GameSave = true;
+    const SAVE_KEY = "Epic_Calc_Save_Lol"
+    function SUPERSECRETDEVELOPERMODE() {
+        console.log("SUPER SECRET DEVELOPER MODE ACTIVATED!! (your progress wont save until you reload the website)")
+        saveGame()
+        GameSave = false;
+        CalcBuxAmount = 90823478903498432790342878923479843270984238239478902340
+        CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+    }
+    function resetCalculator() {
+        CalcBuxAmount = 100;
+        BaseCalcBuxAmount = 5;
+        Results = [];
+        EnabledUpgrades = [];
 
+        CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`;
+        GamblePurchaseButton.disabled = false;
+        GamblePurchaseButton.textContent = "GAMBLING: 100 CALCBUX";
+        AccuracyPurchaseButton.disabled = false;
+        AccuracyPurchaseButton.textContent = "100% CONFIDENCY: 200 CALCBUX"
+
+        localStorage.removeItem(SAVE_KEY)
+
+        console.log("look at what you did, you destroyed everything... YOU MONSTER!")
+    }
+
+    function getSaveData() {
+        return {
+            CalcBuxAmount,
+            BaseCalcBuxAmount,
+            Results,
+            EnabledUpgrades
+        }
+    }
+
+    function applySaveData(data) {
+        CalcBuxAmount = data.CalcBuxAmount ?? 100;
+        EnabledUpgrades = data.EnabledUpgrades ?? [];
+        BaseCalcBuxAmount = data.BaseCalcBuxAmount ?? false;
+        Results = data.Results ?? [];
+
+        CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`;
+
+        if (EnabledUpgrades.includes("Gambling")) {
+            GamblingButton.disabled = false;
+            GamblePurchaseButton.disabled = true;
+        }
+        if (EnabledUpgrades.includes("100Acurracy")) {
+            AccuracyPurchaseButton.disabled = false;
+            AccuracyPurchaseButton.disabled = true;
+        }
+    }
+
+    function saveGame() {
+        localStorage.setItem(
+            SAVE_KEY,
+            JSON.stringify(getSaveData())
+        )
+    }
+
+    CalcButton.addEventListener("click", function() {
         const firstNumber = document.getElementById("firstNumber");
         const secondNumber = document.getElementById("secondNumber");
 
@@ -295,8 +354,21 @@
             let result;
 
             if (operator === "+") {
-                result = Number(firstNumber.value) + Number(secondNumber.value);
-                ResultArea.textContent = result;
+                if (!EnabledUpgrades.includes("100Acurracy")) {
+                    let ActualResult = Number(firstNumber.value) + Number(secondNumber.value);
+                    let RandomNumber = Math.floor(Math.random() * 100) + 1;
+                    let maxError = (100 - RandomNumber) / 2;
+
+                    let offset = (Math.random() * maxError * 2) - maxError;
+                    let DisplayResult = ActualResult + offset;
+                    DisplayResult = Math.round(DisplayResult * 100) / 100;
+
+                    result = `${DisplayResult} (${RandomNumber}% Certain)`;
+                    ResultArea.textContent = result;
+                } else {
+                    result = Number(firstNumber.value) + Number(secondNumber.value);
+                    ResultArea.textContent = result;
+            }
 
 
             } else if (operator === "-") {
@@ -322,7 +394,7 @@
             } else if (operator === "?") {
 
 
-                if (GamblingEnabled) {
+                if (EnabledUpgrades.includes("Gambling")) {
                     function sleep(ms) {
                         return new Promise(resolve => setTimeout(resolve, ms));
                     }
@@ -356,9 +428,9 @@
                         }, 900);
                     } else if (MoneyBet > CalcBuxAmount) {
                         ResultArea.textContent = "Not Enough Money!"
-                    } else if (ChosenNumber >= 9 || ChosenNumber <= 0) {
+                    } else if (ChosenNumber > 9 || ChosenNumber <= 0) {
                         ResultArea.textContent = "Invalid Number!"
-                    } else if (MoneyBet <= 0) {
+                    } else if (MoneyBet < 0) {
                         ResultArea.textContent = "You Can't Bet That Amount Of Money!"
                     }
                 }
@@ -379,18 +451,18 @@
         }
         
     });
-    let EnabledUpgrades = []
     const GamblePurchaseButton = document.getElementById("GamblePurchaseButton");
     const CloseUpgradesButton = document.getElementById("CloseUpgradesButton");
     const UpgradesArea = document.getElementById("UpgradesArea")
     const GamblingButton = document.getElementById("GamblingButton")
+    const AccuracyPurchaseButton = document.getElementById("AccuracyPurchaseButton")
         
     GamblePurchaseButton.addEventListener("click", function() {
         if (CalcBuxAmount >= 100) {
             GamblePurchaseButton.disabled = true;
             GamblePurchaseButton.textContent = "Purchased!"
             GamblingButton.disabled = false
-            GamblingEnabled = true
+            EnabledUpgrades.push("Gambling")
             CalcBuxAmount -= 100
             CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
             setTimeout(() => {
@@ -406,10 +478,52 @@
         }
     });
 
+    AccuracyPurchaseButton.addEventListener("click", function() {
+        if (CalcBuxAmount >= 200) {
+            AccuracyPurchaseButton.disabled = true;
+            AccuracyPurchaseButton.textContent = "Purchased!"
+            EnabledUpgrades.push("100Acurracy")
+            CalcBuxAmount -= 200
+            CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+            setTimeout(() => {
+                AccuracyPurchaseButton.textContent = "100% CONFIDENCY: 200 CALCBUX"
+            }, 900);
+        } else {
+            AccuracyPurchaseButton.textContent = "Not Enough Money!"
+            AccuracyPurchaseButton.disabled = true
+            setTimeout(() => {
+                AccuracyPurchaseButton.textContent = "100% CONFIDENCY: 200 CALCBUX"
+                AccuracyPurchaseButton.disabled = false
+            }, 900);
+        }
+    });
+
+
     CloseUpgradesButton.addEventListener("click", function() {
         UpgradesArea.style.visibility = "hidden"
     });
     UpgradeButton.addEventListener("click", function() {
         UpgradesArea.style.visibility = "visible"
     });
+
+
+    (function initSave() {
+        const raw = localStorage.getItem(SAVE_KEY);
+        if (!raw) return;
+
+        try {
+            applySaveData(JSON.parse(raw));
+
+        } catch {
+            console.warn("Save load failed :(")
+        }
+    })();
+    window.addEventListener("beforeunload", () => {
+        if (GameSave) {
+            saveGame()
+        }
+    });
+
+    console.log(getSaveData())
+    console.log("Hey you! Get the fuck out of my console! >:(")
 </script>
