@@ -15,3 +15,6 @@ The epic calculator, the most useless way to do Math!
 
 # Why did I make this?
 This is a question you might be asking yourself, and I understand it, who would spend hundreds of lines of code to create a calculator that doesnt even serve its purpose? And I say: *Why not?*
+
+# Notes
+The website works on mobile devices, but is not recommended to use it in them.
