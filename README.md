@@ -11,7 +11,6 @@ The epic calculator, the most useless way to do Math!
 - A Money System
 - Gambling 🤑
 - Upgrades (Only 2 rn lol)
-- Uncertainty (Only in addition rn, I was too lazy to add it to the rest lol)
 - A **secret** command
 - Saving system
 - DARK MODE!!!!! 🎉🎉🎉
