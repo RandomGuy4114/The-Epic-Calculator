@@ -14,6 +14,7 @@ The epic calculator, the most useless way to do Math!
 - Uncertainty (Only in addition rn, I was too lazy to add it to the rest lol)
 - A **secret** command
 - Saving system
+- DARK MODE!!!!! 🎉🎉🎉
 - And more yet to come!
 
 # Why did I make this?
