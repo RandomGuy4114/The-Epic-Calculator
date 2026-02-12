@@ -21,3 +21,7 @@ This is a question you might be asking yourself, and I understand it, who would 
 
 # Notes
 The website works on mobile devices, but is not recommended to use it in them.
+
+Saving does **NOT** work on mobile
+
+There is no update schedule, I just update it when I feel like it.
