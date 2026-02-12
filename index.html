@@ -4,7 +4,13 @@
 <html>
     <head>
         <style>
-
+            :root {
+                --main-bg-color: white;
+                --main-border-color: lightgray;
+                --button-bg-color: white;
+                --text-color: black;
+                --button-unavailable-color: lightgray;
+            }
             @font-face {
                 font-family: "Comic Sans";
                 src: url("Comic\ Sans\ MS.ttf");
@@ -38,18 +44,24 @@
             h1 {
                 text-align: center;
                 font-family: "Comic Sans";
+                color: var(--text-color);
             }
             p {
                 font-family: "Comic Sans";
+                color: var(--text-color);
             }
             button {
                 font-family: "Comic Sans";
                 font-size: 24px;
                 border-radius: 10px;
                 border-style: solid;
-                border-color: lightgray;
-                background-color: white;
+                border-color: var(--main-border-color);
+                background-color: var(--button-bg-color);
                 padding: 10px;
+                color: var(--text-color);
+            }
+            button:disabled {
+                background-color: var(--button-unavailable-color);
             }
             .CalcButton {
                 width: 200px;
@@ -66,8 +78,10 @@
                 border-radius: 10px;
                 border-style: solid;
                 text-align: center;
-                border-color: lightgray;
+                border-color: var(--main-border-color);
                 white-space: nowrap;
+                background-color: var(--button-bg-color);
+                color: var(--text-color);
             }
             .TextAreas {
                 text-align: center;
@@ -85,6 +99,7 @@
                 text-align: center;
                 display: flex;
                 justify-content: center;
+                color: var(--text-color);
             }
 
             .title span {
@@ -109,11 +124,12 @@
                 font-family: "Comic Sans";
                 appearance: none;
                 justify-content: center;
-                background-color: white;
-                border-color: lightgray;
+                background-color: var(--button-bg-color);
+                border-color: var(--main-border-color);
                 border-radius: 6px;
                 border-style: solid;
                 animation: OperatorSpin 0.9s infinite ease-in-out alternate;
+                color: var(--text-color);
             }
             .ResultArea {
                 display: flex;
@@ -122,9 +138,10 @@
                 font-size: 24px;
                 align-items: center;
                 justify-content: center;
-                border: 2px solid lightgray;
+                border: 2px solid var(--main-border-color);
                 margin:auto;
                 border-radius: 6px;
+                background-color: var(--button-bg-color);
                 
             }
             .CalcBuxAmount {
@@ -135,37 +152,63 @@
                 width: 150px;
                 font-size: 15px;
             }
+
+            .SettingsButton {
+                height: 40px;
+                width: 300px;
+                font-size: 15px;
+                position: fixed;
+                bottom: 0;
+                padding: 10px 0;
+                margin-bottom: 10px;
+                font-size: 13px;
+            }
             .TopDiv {
-                z-index: 2;
-                position: absolute;
-                width: 500px;
-                height: 300px;
-                border: 1px solid black;
-                border-radius: 8px;
-                background-color: white;
-                top: 20%;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                height: 500px;
+                background: var(--main-bg-color);
+                border: 2px solid var(--main-border-color);
+                padding: 20px;
+                border-radius: 10px;
+                z-index: 9999;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 5px;
+                text-align: center;
+                gap: 2px;  
             }
+
+            
             .UpgradeListButton {
                 height: 45px;
                 font-size: 15px;
                 display: block;
             }
+
         </style>
     </head>
 </html>
 
 
-<body id="Body">
+<body id="Body" style="background-color: var(--main-bg-color);">
+    <div class="TopDiv" id="SettingsOverlay" style="visibility: hidden;">
+        <h1>SETTINGS:</h1>
+        <button class="UpgradeListButton" id="DarkModeButton">DARK MODE</button>
+        <button class="SettingsButton" id="CloseSettingsButton" style="width: 320px; color: red;">CLOSE</button>
+    </div>
+
+
+
     <div class="OperatorArea">
         <div class="TopDiv" id="UpgradesArea" style="visibility: hidden;">
             <h1>UPGRADES:</h1>
             <button class="UpgradeListButton" id="GamblePurchaseButton">GAMBLING: 100 CALCBUX</button>
-            <button class="UpgradeListButton" id="AccuracyPurchaseButton">100% CONFIDENCY: 200 CALCBUX</button>
-            <button class="UpgradeListButton" id="CloseUpgradesButton">CLOSE</button>
+            <button class="UpgradeListButton" id="MoneyPurchaseButton">2X MORE MONEY: 200 CALCBUX</button>
+            <button class="SettingsButton" id="CloseUpgradesButton"style="width: 320px; color: red;">CLOSE</button>
         </div>
     </div>
     <!-- Title -->
@@ -190,7 +233,7 @@
 
     <!-- Result Area -->
 
-    <h1 class="ResultArea" id="ResultArea">v2.2</h1>
+    <h1 class="ResultArea" id="ResultArea">v2.3</h1>
 
     &nbsp;
 
@@ -223,8 +266,13 @@
     <div class="TextAreas">
         <p class="CalcBuxAmount" id="CalcBux">CalcBux Amount: 5$</p>
     </div>
+    <!--Settings Button-->
+    <div class="TextAreas">
+        <button class="SettingsButton" id="SettingsButton">SETTINGS</button>
+    </div>
     <!-- Audio -->
 </body>
+
 <script src="https://unpkg.com/gsap@3/dist/MotionPathPlugin.min.js"></script>
 <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
 <script>
@@ -258,8 +306,6 @@
         CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`;
         GamblePurchaseButton.disabled = false;
         GamblePurchaseButton.textContent = "GAMBLING: 100 CALCBUX";
-        AccuracyPurchaseButton.disabled = false;
-        AccuracyPurchaseButton.textContent = "100% CONFIDENCY: 200 CALCBUX"
 
         localStorage.removeItem(SAVE_KEY)
 
@@ -287,9 +333,9 @@
             GamblingButton.disabled = false;
             GamblePurchaseButton.disabled = true;
         }
-        if (EnabledUpgrades.includes("100Acurracy")) {
-            AccuracyPurchaseButton.disabled = false;
-            AccuracyPurchaseButton.disabled = true;
+        if (EnabledUpgrades.includes("2XMoreMoney")) {
+            MoneyPurchaseButton.disabled = false;
+            MoneyPurchaseButton.disabled = true;
         }
     }
 
@@ -306,20 +352,21 @@
 
         const operator = document.getElementById("Operator").value;
         function AddCalcBux() {
+            let earned = 0;
             console.log(firstNumber.value + operator + secondNumber.value)
             if (!Results.includes(firstNumber.value + operator + secondNumber.value)) {
                 if (operator === "+") {
-                    CalcBuxAmount += BaseCalcBuxAmount
+                    earned += BaseCalcBuxAmount
                 } else if (operator === "-") {
-                    CalcBuxAmount += BaseCalcBuxAmount +2
+                    earned += BaseCalcBuxAmount +2
                 } else if (operator === "*") {
-                    CalcBuxAmount += BaseCalcBuxAmount + 4
+                    earned = BaseCalcBuxAmount + 4
                 } else if (operator === "/") {
                     if (Div0) {
-                        CalcBuxAmount -= BaseCalcBuxAmount
+                        earned -= BaseCalcBuxAmount
                         Div0 = false;
                     } else {
-                        CalcBuxAmount += BaseCalcBuxAmount + 6
+                        earned += BaseCalcBuxAmount + 6
                     }
                 }
             } else {
@@ -327,8 +374,15 @@
                     CalcBuxAmount -= BaseCalcBuxAmount
                     Div0 = false;
                 }
-                CalcBuxAmount += 2
+                earned += 2
             }
+
+            if (EnabledUpgrades.includes("2XMoreMoney")) {
+                earned *= 2
+            }
+
+            CalcBuxAmount += earned
+            
             if (CalcBuxAmount <= 0) {
                 CalcBuxAmount = 0
             }
@@ -354,23 +408,8 @@
             let result;
 
             if (operator === "+") {
-                if (!EnabledUpgrades.includes("100Acurracy")) {
-                    let ActualResult = Number(firstNumber.value) + Number(secondNumber.value);
-                    let RandomNumber = Math.floor(Math.random() * 100) + 1;
-                    let maxError = (100 - RandomNumber) / 2;
-
-                    let offset = (Math.random() * maxError * 2) - maxError;
-                    let DisplayResult = ActualResult + offset;
-                    DisplayResult = Math.round(DisplayResult * 100) / 100;
-
-                    result = `${DisplayResult} (${RandomNumber}% Certain)`;
-                    ResultArea.textContent = result;
-                } else {
-                    result = Number(firstNumber.value) + Number(secondNumber.value);
-                    ResultArea.textContent = result;
-            }
-
-
+                result = Number(firstNumber.value) + Number(secondNumber.value);
+                ResultArea.textContent = result;
             } else if (operator === "-") {
                 result = Number(firstNumber.value) - Number(secondNumber.value);
                 ResultArea.textContent = result;
@@ -422,6 +461,7 @@
                             if (Number(ChosenNumber) == ResultArea.textContent) {
                                 ResultArea.textContent = "Winner!"
                                 CalcBuxAmount += MoneyBet * 2
+                                CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
                             } else {
                                 ResultArea.textContent = "Loser!"
                             }
@@ -455,7 +495,7 @@
     const CloseUpgradesButton = document.getElementById("CloseUpgradesButton");
     const UpgradesArea = document.getElementById("UpgradesArea")
     const GamblingButton = document.getElementById("GamblingButton")
-    const AccuracyPurchaseButton = document.getElementById("AccuracyPurchaseButton")
+    const MoneyPurchaseButton = document.getElementById("MoneyPurchaseButton")
         
     GamblePurchaseButton.addEventListener("click", function() {
         if (CalcBuxAmount >= 100) {
@@ -478,22 +518,22 @@
         }
     });
 
-    AccuracyPurchaseButton.addEventListener("click", function() {
+    MoneyPurchaseButton.addEventListener("click", function() {
         if (CalcBuxAmount >= 200) {
-            AccuracyPurchaseButton.disabled = true;
-            AccuracyPurchaseButton.textContent = "Purchased!"
-            EnabledUpgrades.push("100Acurracy")
+            MoneyPurchaseButton.disabled = true;
+            MoneyPurchaseButton.textContent = "Purchased!"
+            EnabledUpgrades.push("2XMoreMoney")
             CalcBuxAmount -= 200
             CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
             setTimeout(() => {
-                AccuracyPurchaseButton.textContent = "100% CONFIDENCY: 200 CALCBUX"
+                MoneyPurchaseButton.textContent = "2X MORE MONEY: 200 CALCBUX"
             }, 900);
         } else {
-            AccuracyPurchaseButton.textContent = "Not Enough Money!"
-            AccuracyPurchaseButton.disabled = true
+            MoneyPurchaseButton.textContent = "Not Enough Money!"
+            MoneyPurchaseButton.disabled = true
             setTimeout(() => {
-                AccuracyPurchaseButton.textContent = "100% CONFIDENCY: 200 CALCBUX"
-                AccuracyPurchaseButton.disabled = false
+                MoneyPurchaseButton.textContent = "2X MORE MONEY: 200 CALCBUX"
+                MoneyPurchaseButton.disabled = false
             }, 900);
         }
     });
@@ -523,6 +563,36 @@
             saveGame()
         }
     });
+    
+    const SettingsButton = document.getElementById("SettingsButton");
+    const CloseSettingsButton = document.getElementById("CloseSettingsButton");
+    const DarkModeButton = document.getElementById("DarkModeButton");
+    SettingsButton.addEventListener("click", function() {
+        const SettingsOverlay = document.getElementById("SettingsOverlay");
+        SettingsOverlay.style.visibility = "visible"
+    });
+    CloseSettingsButton.addEventListener("click", function() {
+        const SettingsOverlay = document.getElementById("SettingsOverlay");
+        SettingsOverlay.style.visibility = "hidden"
+    });
+    DarkModeButton.addEventListener("click", function() {
+        if (Body.style.backgroundColor === "var(--main-bg-color)") {
+            Body.style.backgroundColor = "#121212";
+            Body.style.setProperty("--main-bg-color", "#121212");
+            Body.style.setProperty("--main-border-color", "#1e1e1e");
+            Body.style.setProperty("--button-bg-color", "#1e1e1e");
+            Body.style.setProperty("--text-color", "white");
+            Body.style.setProperty("--button-unavailable-color", "#2c2c2c");
+        } else {
+            Body.style.backgroundColor = "var(--main-bg-color)";
+            Body.style.setProperty("--main-bg-color", "white");
+            Body.style.setProperty("--main-border-color", "lightgray");
+            Body.style.setProperty("--button-bg-color", "white");
+            Body.style.setProperty("--text-color", "black");
+            Body.style.setProperty("--button-unavailable-color", "lightgray");
+        }
+    });
+
 
     console.log(getSaveData())
     console.log("Hey you! Get the fuck out of my console! >:(")
