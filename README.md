@@ -14,6 +14,8 @@ The epic calculator, the most useless way to do Math!
 - A **secret** command
 - Saving system
 - DARK MODE!!!!! 🎉🎉🎉
+- LOOTBOXES!!
+- THEMES!!!!!
 - And more yet to come!
 
 # Why did I make this?
