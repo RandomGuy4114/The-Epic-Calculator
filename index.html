@@ -10,6 +10,8 @@
                 --button-bg-color: white;
                 --text-color: black;
                 --button-unavailable-color: lightgray;
+                --button-price-color: green;
+                --button-color-2: #ffffff;
             }
             @font-face {
                 font-family: "Comic Sans";
@@ -27,7 +29,7 @@
             }
             @keyframes TitleAnim {
                 0% {transform: translateY(0);}
-                50% {transform: translateY(-14px);}
+                50% {transform: translateY(-20px);}
             }
             @keyframes OperatorSpin {
                 0% {transform: rotate(-10deg);}
@@ -38,6 +40,35 @@
             }
             @keyframes ResultAnimRight {
                 8% {transform: translateX(30px) rotate(5deg);}
+            }
+            @keyframes shake {
+                0%   { transform: translate(0px, 0px) rotate(0deg); }
+                10%  { transform: translate(-1px, 1px) rotate(-0.5deg); }
+                20%  { transform: translate(1px, -1px) rotate(0.5deg); }
+                30%  { transform: translate(-1px, 0px) rotate(-0.3deg); }
+                40%  { transform: translate(1px, 1px) rotate(0.3deg); }
+                50%  { transform: translate(0px, -1px) rotate(-0.4deg); }
+                60%  { transform: translate(-1px, 0px) rotate(0.4deg); }
+                70%  { transform: translate(1px, -1px) rotate(-0.2deg); }
+                80%  { transform: translate(-1px, 1px) rotate(0.2deg); }
+                90%  { transform: translate(1px, 0px) rotate(-0.3deg); }
+                100% { transform: translate(0px, 0px) rotate(0deg); }
+            }
+            @keyframes green-neon-flicker {
+                0%, 100% { text-shadow: 0 0 10px lime; }
+                50% { text-shadow: 0 0 20px lime; }
+            }
+
+            @keyframes float {
+                0%   { transform: translate(0, 0) rotate(0deg); }
+                25%  { transform: translate(4px, -6px) rotate(0.5deg); }
+                50%  { transform: translate(-2px, -10px) rotate(-0.5deg); }
+                75%  { transform: translate(-5px, -4px) rotate(0.3deg); }
+                100% { transform: translate(0, 0) rotate(0deg); }
+            }
+
+            @keyframes blood-moon-flicker {
+                100% { text-shadow: 0 0 10px black; color: black;}
             }
 
 
@@ -59,8 +90,12 @@
                 background-color: var(--button-bg-color);
                 padding: 10px;
                 color: var(--text-color);
+                transition: background-color 0.2s ease;
             }
             button:disabled {
+                background-color: var(--button-unavailable-color);
+            }
+            button:hover:not(:disabled) {
                 background-color: var(--button-unavailable-color);
             }
             .CalcButton {
@@ -82,6 +117,7 @@
                 white-space: nowrap;
                 background-color: var(--button-bg-color);
                 color: var(--text-color);
+                transition: background-color 0.2s ease;
             }
             .TextAreas {
                 text-align: center;
@@ -103,6 +139,7 @@
             }
 
             .title span {
+                text-shadow: 0 0 15px currentColor;
                 justify-content: center;
                 display: inline-block;
                 animation-name: RainbowAnim, TitleAnim;
@@ -130,6 +167,10 @@
                 border-style: solid;
                 animation: OperatorSpin 0.9s infinite ease-in-out alternate;
                 color: var(--text-color);
+                transition: background-color 0.2s ease;
+            }
+            .Operator:hover {
+                background-color: var(--button-unavailable-color);
             }
             .ResultArea {
                 display: flex;
@@ -142,10 +183,12 @@
                 margin:auto;
                 border-radius: 6px;
                 background-color: var(--button-bg-color);
+                transition: background-color 0.2s ease;
                 
             }
             .CalcBuxAmount {
                 font-size: 30px;
+                transition: color 0.5s ease;
             }
             .UpgradeButton {
                 height: 40px;
@@ -158,6 +201,17 @@
                 width: 300px;
                 font-size: 15px;
                 position: fixed;
+                bottom: 0;
+                padding: 10px 0;
+                margin-bottom: 10px;
+                font-size: 13px;
+            }
+            .ShopButton {
+                height: 40px;
+                width: 60px;
+                font-size: 15px;
+                position: fixed;
+                left: 1px;
                 bottom: 0;
                 padding: 10px 0;
                 margin-bottom: 10px;
@@ -188,6 +242,83 @@
                 font-size: 15px;
                 display: block;
             }
+            .SkinsButton {
+                height: 40px;
+                width: 60px;
+                font-size: 15px;
+                position: fixed;
+                left: 67px;
+                bottom: 0;
+                padding: 10px 0;
+                margin-bottom: 10px;
+                font-size: 13px;
+                
+            }
+            .SkinsContainer {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .Skin {
+                height: 140px;
+                width: 296px;
+                border: 2px solid var(--main-border-color);
+                border-radius: 6px;
+                background-color: var(--button-bg-color);
+            }
+            .SkinButton {
+                height: 45px;
+                width: 250px;
+                font-size: 15px;
+                background-color: var(--button-bg-color);
+            }
+            .SkinHolder {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                /* Change 'center' to 'flex-start' */
+                justify-content: flex-start; 
+                
+                gap: 5px;
+                height: 340px;
+                overflow-y: auto; /* Specifically target vertical scrolling */
+                overflow-x: hidden;
+                border: 2px solid var(--main-border-color);
+                border-radius: 6px;
+                scrollbar-color: var(--button-bg-color);
+                scrollbar-color: var(--button-bg-color) var(--main-border-color);
+                
+                /* Add padding to prevent the first skin from touching the top edge */
+                padding-top: 10px;
+                padding-bottom: 10px;
+                scrollbar-width: thin;
+            }
+            .EvilRedText span {
+                display: inline-block;
+                animation: shake 0.6s infinite ease-in-out;
+                animation-delay: calc(0.08s * var(--i));
+            }
+            .GenericNeonText {
+                color: lime;
+                text-shadow: 0 0 5px lime;
+                animation: green-neon-flicker 1s infinite ease-in-out;
+            }
+
+            .floating-element {
+                animation: float 6s ease-in-out infinite;
+            }
+            .BloodMoonText span {
+                color: darkred;
+                text-shadow: 0 0 10px darkred;
+                animation: blood-moon-flicker 0.6s infinite ease-in-out;
+                animation-delay: calc(0.08s * var(--i));
+            }
+            
+            .RainbowText {
+                animation: RainbowAnim 3s infinite ease-in-out;
+                text-shadow: 0 0 15px currentColor;
+            }
+
 
         </style>
     </head>
@@ -195,25 +326,138 @@
 
 
 <body id="Body" style="background-color: var(--main-bg-color);">
-    <div class="TopDiv" id="SettingsOverlay" style="visibility: hidden;">
-        <h1>SETTINGS:</h1>
-        <button class="UpgradeListButton" id="DarkModeButton">DARK MODE</button>
-        <button class="SettingsButton" id="CloseSettingsButton" style="width: 320px; color: red;">CLOSE</button>
+    <div class="TopDiv" id="LootBoxOverlay" style="visibility: hidden; width: 400px; height: 500px; overflow: hidden;">
+        <div class="TopDiv" id="LootBoxImageBox" style="width: 350px; height: 250px; overflow: hidden; top: 170px;">
+            <h1 id="LootBoxImage" style="font-size: 95px;">?</h1>
+        </div>
+        <h1 id="LootBoxTitle" style="font-size: 30px; position: fixed; top: 300px; left: 50%; transform: translateX(-50%);">Placeholder</h1>
+        <p id="LootBoxSubtitle" style="font-size: 20px; position: fixed; top: 360px; left: 50%; transform: translateX(-50%);"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis dapibus ligula. Aenean elementum.</p>
     </div>
 
+    <div class="TopDiv" id="SettingsOverlay" style="visibility: hidden;">
+        <h1>SETTINGS</h1>
+        <button class="UpgradeListButton" id="DarkModeButton">DARK MODE</button>
+    
+        <button class="SettingsButton" id="CloseSettingsButton" style="width: 320px; color: red;">CLOSE</button>
+    </div>
+    <div class="TopDiv" id="ShopOverlay" style="visibility: hidden;">
+        <h1>SHOP</h1>
+        <button class="UpgradeListButton" id="CommonLootBox">MONEY LOOTBOX <span style="color: var(--button-price-color)">$50</span></button>
+        <button class="UpgradeListButton" id="SkinLootBox">SKIN LOOTBOX <span style="color: var(--button-price-color)">$100</span></button>
+    
+        <button class="SettingsButton" id="CloseShopButton" style="width: 320px; color: red;">CLOSE</button>
+    </div>
 
+    <div class="TopDiv" id="UpgradesArea" style="visibility: hidden;">
+        <h1>UPGRADES</h1>
+        <button class="UpgradeListButton" id="GamblePurchaseButton">GAMBLING: 100 CALCBUX</button>
+        <button class="UpgradeListButton" id="MoneyPurchaseButton">2X MORE MONEY: 200 CALCBUX</button>
+        <button class="SettingsButton" id="CloseUpgradesButton"style="width: 320px; color: red;">CLOSE</button>
+    </div>
 
-    <div class="OperatorArea">
-        <div class="TopDiv" id="UpgradesArea" style="visibility: hidden;">
-            <h1>UPGRADES:</h1>
-            <button class="UpgradeListButton" id="GamblePurchaseButton">GAMBLING: 100 CALCBUX</button>
-            <button class="UpgradeListButton" id="MoneyPurchaseButton">2X MORE MONEY: 200 CALCBUX</button>
-            <button class="SettingsButton" id="CloseUpgradesButton"style="width: 320px; color: red;">CLOSE</button>
+    <div class="TopDiv" id="SkinsOverlay" style="visibility: hidden; gap: 10px;">
+        <h1>SKINS</h1>
+
+        <div class="SkinHolder">
+            <!-- No Skin -->
+            <div class="Skin">
+                <h1 style="font-size: 20px; color: var(--text-color);">No Skin</h1>
+                <p style="font-size: 12px;">The default skin, how boring.</p>
+                <button class="SkinButton" id="NoSkinButton">SELECT</button>
+            </div>
+
+            <!-- Generic Neon Skin -->
+
+            <div class="Skin">
+                <h1 class="GenericNeonText" style="font-size: 20px; color: lime; text-shadow: 0 0 20px lime;">Generic Neon</h1>
+                <p style="font-size: 12px;">A generic neon skin, how original.</p>
+                <button class="SkinButton" id="GenericNeonButton">SELECT</button>
+            </div>
+
+            <!-- Girly Pastel Skin -->
+
+            <div class="Skin">
+                <h1 style="font-size: 20px; color: pink;">Girly Pastel</h1>
+                <p style="font-size: 12px;">A girly pastel skin, how cute.</p>
+                <button class="SkinButton" id="GirlyPastelButton">SELECT</button>
+            </div>
+
+            <!-- EVIL RED Skin -->
+
+            <div class="Skin">
+                <h1 class="EvilRedText" style="font-size: 20px; color: red;">
+                    <span style="--i:1">E</span>
+                    <span style="--i:2">V</span>
+                    <span style="--i:3">I</span>
+                    <span style="--i:4">L</span>
+                    &nbsp;
+                    <span style="--i:5">R</span>
+                    <span style="--i:6">E</span>
+                    <span style="--i:7">D</span>
+
+                </h1>
+                <p style="font-size: 12px;">An evil red skin, how scary.</p>
+                <button class="SkinButton" id="EVILREDBUTTON">SELECT</button>
+            </div>
+
+            <!-- Golden Prestige Skin -->
+            
+            <div class="Skin">
+                <h1 style="font-size: 20px; color: gold; text-shadow: 0 0 10px gold;">Golden Prestige</h1>
+                <p style="font-size: 12px;">A golden prestige skin, how fancy.</p>
+                <button class="SkinButton" id="GoldenPrestigeButton">SELECT</button>
+            </div>
+
+            <!-- Cosmic Void Skin -->
+
+            <div class="Skin">
+                <h1 class="floating-element" style="font-size: 20px; color: purple; text-shadow: 0 0 10px purple;">Cosmic Void</h1>
+                <p style="font-size: 12px;">A cosmic void skin, how mysterious.</p>
+                <button class="SkinButton" id="CosmicVoidButton">SELECT</button>
+            </div>
+
+            <!-- Terminal Green Skin -->
+
+            <div class="Skin">
+                <h1 style="font-size: 20px; color: #00ff00">Terminal Green</h1>
+                <p style="font-size: 12px;">A terminal green skin, how techy.</p>
+                <button class="SkinButton" id="TerminalGreenButton">SELECT</button>
+            </div>
+
+            <!-- BLOOD MOON skin -->
+
+            <div class="Skin">
+                <h1 class="BloodMoonText" style="font-size: 20px; color: darkred; text-shadow: 0 0 10px darkred;">
+                    <span style="--i:4">B</span>
+                    <span style="--i:2">L</span>
+                    <span style="--i:5">O</span>
+                    <span style="--i:3">O</span>
+                    <span style="--i:1">D</span>
+                    &nbsp;
+                    <span style="--i:8">M</span>
+                    <span style="--i:6">O</span>
+                    <span style="--i:9">O</span>
+                    <span style="--i:7">N</span>
+                </h1>
+                <p style="font-size: 12px;">A blood moon skin, how spooky.</p>
+                <button class="SkinButton" id="BloodMoonButton">SELECT</button>
+            </div>
+
+            <!-- Rainbow Skin -->
+            <div class="Skin">
+                <h1 class="RainbowText" style="font-size: 20px;">Rainbow</h1>
+                <p style="font-size: 12px;">A rainbow skin, how colorful.</p>
+                <button class="SkinButton" id="RainbowButton">SELECT</button>
+            </div>
         </div>
+
+
+        <button class="SettingsButton" id="CloseSkinsButton"style="width: 320px; color: red;">CLOSE</button>
+
     </div>
     <!-- Title -->
 
-    <h1 class="title">
+    <h1 class="title" id="Title">
         <span style="--i:1">E</span>
         <span style="--i:2">P</span>
         <span style="--i:3">I</span>
@@ -233,7 +477,7 @@
 
     <!-- Result Area -->
 
-    <h1 class="ResultArea" id="ResultArea">v2.3</h1>
+    <h1 class="ResultArea" id="ResultArea">v2.4 / Lootboxes Update</h1>
 
     &nbsp;
 
@@ -269,6 +513,8 @@
     <!--Settings Button-->
     <div class="TextAreas">
         <button class="SettingsButton" id="SettingsButton">SETTINGS</button>
+        <button class="ShopButton" id="ShopButton">SHOP</button>
+        <button class="SkinsButton" id="SkinsButton">SKINS</button>
     </div>
     <!-- Audio -->
 </body>
@@ -281,14 +527,17 @@
     const Body = document.getElementById("Body");
     const CalcBux = document.getElementById("CalcBux")
     const UpgradeButton = document.getElementById("UpgradeButton")
+    const Title = document.getElementById("Title")
     let CalcBuxAmount = 100;
     let CalcDebounce = false;
     CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
     let EnabledUpgrades = []
     let BaseCalcBuxAmount = 5;
     let Results = []
+    let UnlockedSkins = []
     let Div0 = false;
     let GameSave = true;
+    let SelectedSkin = "No Skin";
     const SAVE_KEY = "Epic_Calc_Save_Lol"
     function SUPERSECRETDEVELOPERMODE() {
         console.log("SUPER SECRET DEVELOPER MODE ACTIVATED!! (your progress wont save until you reload the website)")
@@ -302,6 +551,7 @@
         BaseCalcBuxAmount = 5;
         Results = [];
         EnabledUpgrades = [];
+        UnlockedSkins = [];
 
         CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`;
         GamblePurchaseButton.disabled = false;
@@ -317,16 +567,19 @@
             CalcBuxAmount,
             BaseCalcBuxAmount,
             Results,
-            EnabledUpgrades
+            EnabledUpgrades,
+            UnlockedSkins,
+            SelectedSkin
         }
     }
 
     function applySaveData(data) {
         CalcBuxAmount = data.CalcBuxAmount ?? 100;
         EnabledUpgrades = data.EnabledUpgrades ?? [];
-        BaseCalcBuxAmount = data.BaseCalcBuxAmount ?? false;
+        BaseCalcBuxAmount = data.BaseCalcBuxAmount ?? 5;
         Results = data.Results ?? [];
-
+        UnlockedSkins = data.UnlockedSkins ?? [];
+        SelectedSkin = data.SelectedSkin ?? "No Skin";
         CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`;
 
         if (EnabledUpgrades.includes("Gambling")) {
@@ -336,6 +589,12 @@
         if (EnabledUpgrades.includes("2XMoreMoney")) {
             MoneyPurchaseButton.disabled = false;
             MoneyPurchaseButton.disabled = true;
+        }
+        // Refresh skins UI after loading saved unlocked skins
+        try {
+            RefreshSkins();
+        } catch (e) {
+            console.warn("RefreshSkins failed while applying save data:", e);
         }
     }
 
@@ -373,6 +632,15 @@
                 if (Div0) {
                     CalcBuxAmount -= BaseCalcBuxAmount
                     Div0 = false;
+                    CalcBux.style.color = "red";
+                    setTimeout(() => {
+                        CalcBux.style.color = "var(--text-color)";
+                    }, 400);
+                } else {
+                    CalcBux.style.color = "green";
+                    setTimeout(() => {
+                        CalcBux.style.color = "var(--text-color)";
+                    }, 400);
                 }
                 earned += 2
             }
@@ -410,6 +678,10 @@
             if (operator === "+") {
                 result = Number(firstNumber.value) + Number(secondNumber.value);
                 ResultArea.textContent = result;
+                if (firstNumber.value == 9 && secondNumber.value == 10) {
+                    ResultArea.textContent = "21"
+                }
+
             } else if (operator === "-") {
                 result = Number(firstNumber.value) - Number(secondNumber.value);
                 ResultArea.textContent = result;
@@ -567,22 +839,26 @@
     const SettingsButton = document.getElementById("SettingsButton");
     const CloseSettingsButton = document.getElementById("CloseSettingsButton");
     const DarkModeButton = document.getElementById("DarkModeButton");
+
     SettingsButton.addEventListener("click", function() {
         const SettingsOverlay = document.getElementById("SettingsOverlay");
         SettingsOverlay.style.visibility = "visible"
     });
+    
     CloseSettingsButton.addEventListener("click", function() {
         const SettingsOverlay = document.getElementById("SettingsOverlay");
         SettingsOverlay.style.visibility = "hidden"
     });
+
     DarkModeButton.addEventListener("click", function() {
         if (Body.style.backgroundColor === "var(--main-bg-color)") {
             Body.style.backgroundColor = "#121212";
             Body.style.setProperty("--main-bg-color", "#121212");
-            Body.style.setProperty("--main-border-color", "#1e1e1e");
+            Body.style.setProperty("--main-border-color", "#3d3d3d");
             Body.style.setProperty("--button-bg-color", "#1e1e1e");
             Body.style.setProperty("--text-color", "white");
             Body.style.setProperty("--button-unavailable-color", "#2c2c2c");
+            DarkModeButton.textContent = "LIGHT MODE"
         } else {
             Body.style.backgroundColor = "var(--main-bg-color)";
             Body.style.setProperty("--main-bg-color", "white");
@@ -590,9 +866,510 @@
             Body.style.setProperty("--button-bg-color", "white");
             Body.style.setProperty("--text-color", "black");
             Body.style.setProperty("--button-unavailable-color", "lightgray");
+            DarkModeButton.textContent = "DARK MODE"
         }
     });
 
+    const ShopButton = document.getElementById("ShopButton");
+    const ShopOverlay = document.getElementById("ShopOverlay");
+    const CloseShopButton = document.getElementById("CloseShopButton");
+    ShopButton.addEventListener("click", function() {
+        ShopOverlay.style.visibility = "visible"
+        
+    });
+
+    CloseShopButton.addEventListener("click", function() {
+        ShopOverlay.style.visibility = "hidden"
+    });
+    
+    function Roll() {
+        const LootBoxOverlay = document.getElementById("LootBoxOverlay");
+        const LootBoxImage = document.getElementById("LootBoxImage");
+        const LootBoxTitle = document.getElementById("LootBoxTitle");
+        const LootBoxSubtitle = document.getElementById("LootBoxSubtitle");
+
+        LootBoxOverlay.style.visibility = "visible"
+        ShopOverlay.style.visibility = "hidden"
+        if (SelectedLootBox === "Money") {
+            let rewards = ["10 Calcbux", "20 CalcBux", "50 CalcBux", "100 CalcBux", "200 CalcBux", "500 CalcBux", "1000 CalcBux"]
+            rewards.sort(() => Math.random() - 0.5)
+            let finalReward = rewards[rewards.length - 1];
+            rewards.forEach((reward, index) => {
+                setTimeout(() => {
+                    LootBoxTitle.textContent = reward;
+                    if (reward == "10 Calcbux") {
+                        LootBoxSubtitle.textContent = "10 Calcbux, not bad!";
+                        LootBoxImage.textContent = "$";
+                    } else if (reward == "20 CalcBux") {
+                        LootBoxSubtitle.textContent = "20 CalcBux, nice!";
+                        LootBoxImage.textContent = "$$";
+                    } else if (reward == "50 CalcBux") {
+                        LootBoxSubtitle.textContent = "50 CalcBux, great!";
+                        LootBoxImage.textContent = "$$$";
+                    } else if (reward == "100 CalcBux") {
+                        LootBoxSubtitle.textContent = "100 CalcBux, amazing!";
+                        LootBoxImage.textContent = "$$$$";
+                    } else if (reward == "200 CalcBux") {
+                        LootBoxSubtitle.textContent = "200 CalcBux, wow!";
+                        LootBoxImage.textContent = "$$$$$";
+                    } else if (reward == "500 CalcBux") {
+                        LootBoxSubtitle.textContent = "500 CalcBux, insane!";
+                        LootBoxImage.textContent = "$$$$$$";
+                    } else if (reward == "1000 CalcBux") {
+                        LootBoxSubtitle.textContent = "1000 CalcBux, you're a legend!";
+                        LootBoxImage.textContent = "$$$$$$$";
+                    }
+                }, index * 100);
+                
+            });
+            setTimeout(() => {
+                let amount = parseInt(finalReward.replace(/[^\d]/g, ''));
+                CalcBuxAmount += amount;
+                CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+                LootBoxOverlay.style.visibility = "hidden"
+            }, rewards.length * 200);
+        }
+        if (SelectedLootBox === "Skin") {
+            let rewards = ["Generic Neon", "Girly Pastel", "EVIL RED", "Golden Prestige", "Cosmic Void", "Terminal Green", "BLOOD MOON", "Rainbow"]
+            rewards.sort(() => Math.random() - 0.5)
+            let finalReward = rewards[rewards.length - 1];
+            rewards.forEach((reward, index) => {
+                setTimeout(() => {
+                    LootBoxTitle.textContent = reward;
+                    if (reward == "Generic Neon") {
+                        LootBoxSubtitle.textContent = "A generic neon skin, how original.";
+                        LootBoxImage.textContent = "🟩";
+                    } else if (reward == "Girly Pastel") {
+                        LootBoxSubtitle.textContent = "A girly pastel skin, how cute!";
+                        LootBoxImage.textContent = "🟪";
+                    } else if (reward == "EVIL RED") {
+                        LootBoxSubtitle.textContent = "An evil red skin, how scary!";
+                        LootBoxImage.textContent = "🟥";
+                    } else if (reward == "Golden Prestige") {
+                        LootBoxSubtitle.textContent = "A golden prestige skin, how fancy!";
+                        LootBoxImage.textContent = "🟨";
+                    } else if (reward == "Cosmic Void") {
+                        LootBoxSubtitle.textContent = "A cosmic void skin, how mysterious!";
+                        LootBoxImage.textContent = "⬛";
+                    } else if (reward == "Terminal Green") {
+                        LootBoxSubtitle.textContent = "A terminal green skin, how techy!";
+                        LootBoxImage.textContent = "🟩";
+                    } else if (reward == "BLOOD MOON") {
+                        LootBoxSubtitle.textContent = "A blood moon skin, how spooky!";
+                        LootBoxImage.textContent = "🟥";
+                    } else if (reward == "Rainbow") {
+                        LootBoxSubtitle.textContent = "A rainbow skin, how colorful!";
+                        LootBoxImage.textContent = "🌈";
+                    }
+                }, index * 100);
+                
+            });
+            setTimeout(() => {
+                if (!UnlockedSkins.includes(finalReward)) {
+                    UnlockedSkins.push(finalReward)
+                    saveGame()
+                }
+                LootBoxOverlay.style.visibility = "hidden"
+                ShopOverlay.style.visibility = "visible"
+                console.log(UnlockedSkins)
+                RefreshSkins();
+            }, rewards.length * 200);
+        }
+    }
+
+    let SelectedLootBox = null;
+    const CommonLootBox = document.getElementById("CommonLootBox");
+    const SkinLootBox = document.getElementById("SkinLootBox");
+
+
+    CommonLootBox.addEventListener("click", function() {
+        if (CalcBuxAmount >= 50) {
+            CalcBuxAmount -= 50;
+            CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+            SelectedLootBox = "Money";
+            Roll()
+        }
+    });
+    SkinLootBox.addEventListener("click", function() {
+        if (CalcBuxAmount >= 100) {
+            CalcBuxAmount -= 100;
+            CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`
+            SelectedLootBox = "Skin";
+            Roll()
+        }
+    });
+    const SkinsButton = document.getElementById("SkinsButton");
+    const SkinsOverlay = document.getElementById("SkinsOverlay");
+
+    SkinsButton.addEventListener("click", function() {
+        SkinsOverlay.style.visibility = "visible"
+    });
+    const CloseSkinsButton = document.getElementById("CloseSkinsButton");
+
+    CloseSkinsButton.addEventListener("click", function() {
+        SkinsOverlay.style.visibility = "hidden"
+    });
+
+    // Skin Selection Buttons
+    const NoSkinButton = document.getElementById("NoSkinButton");
+    const GenericNeonButton = document.getElementById("GenericNeonButton");
+    const GirlyPastelButton = document.getElementById("GirlyPastelButton");
+    const EVILREDBUTTON = document.getElementById("EVILREDBUTTON");
+    const GoldenPrestigeButton = document.getElementById("GoldenPrestigeButton");
+    const CosmicVoidButton = document.getElementById("CosmicVoidButton");
+    const TerminalGreenButton = document.getElementById("TerminalGreenButton");
+    const BloodMoonButton = document.getElementById("BloodMoonButton");
+    const RainbowButton = document.getElementById("RainbowButton");
+
+    function RefreshSkins() {
+        if (UnlockedSkins.includes("Generic Neon")) {
+            GenericNeonButton.disabled = false;
+        } else {
+            GenericNeonButton.disabled = true;
+        }
+        if (UnlockedSkins.includes("Girly Pastel")) {
+            GirlyPastelButton.disabled = false;
+        } else {
+            GirlyPastelButton.disabled = true;
+        }
+        if (UnlockedSkins.includes("EVIL RED")) {
+            EVILREDBUTTON.disabled = false;
+        } else {
+            EVILREDBUTTON.disabled = true;
+        }
+        if (UnlockedSkins.includes("Golden Prestige")) {
+            GoldenPrestigeButton.disabled = false;
+        } else {
+            GoldenPrestigeButton.disabled = true;
+        }
+        if (UnlockedSkins.includes("Cosmic Void")) {
+            CosmicVoidButton.disabled = false;
+        } else {
+            CosmicVoidButton.disabled = true;
+        }
+        if (UnlockedSkins.includes("Terminal Green")) {
+            TerminalGreenButton.disabled = false;
+        } else {
+            TerminalGreenButton.disabled = true;
+        }
+        if (UnlockedSkins.includes("BLOOD MOON")) {
+            BloodMoonButton.disabled = false;
+        } else {
+            BloodMoonButton.disabled = true;
+        }
+        if (UnlockedSkins.includes("Rainbow")) {
+            RainbowButton.disabled = false;
+        } else {
+            RainbowButton.disabled = true;
+        }
+
+        if (SelectedSkin == "No Skin") {
+            NoSkinButton.textContent = "SELECTED"
+            NoSkinButton.style.color = "lime";
+
+            Body.style.backgroundColor = "var(--main-bg-color)";
+            Body.style.setProperty("--main-bg-color", "white");
+            Body.style.setProperty("--main-border-color", "lightgray");
+            Body.style.setProperty("--button-bg-color", "white");
+            Body.style.setProperty("--text-color", "black");
+            Body.style.setProperty("--button-unavailable-color", "lightgray");
+            DarkModeButton.textContent = "DARK MODE"
+
+        } else {
+            NoSkinButton.textContent = "SELECT"
+            NoSkinButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "Generic Neon") {
+            GenericNeonButton.textContent = "SELECTED"
+            GenericNeonButton.style.color = "lime";
+
+            Body.style.backgroundColor = "#121212";
+            Body.style.setProperty("--main-bg-color", "#121212");
+            Body.style.setProperty("--main-border-color", "lime");
+            Body.style.setProperty("--button-bg-color", "#1e1e1e");
+            Body.style.setProperty("--text-color", "lime");
+            Body.style.setProperty("--button-unavailable-color", "green");
+            
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "TitleAnim";
+                span.style.animationDuration = "2s";
+                span.style.animationIterationCount = "infinite";
+                span.style.animationTimingFunction = "ease-in-out";
+                span.style.animationDirection = "normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "lime";
+            });
+        } else {
+            GenericNeonButton.textContent = "SELECT"
+            GenericNeonButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "Girly Pastel") {
+            GoldenPrestigeButton.textContent = "SELECTED"
+            GoldenPrestigeButton.style.color = "lime";
+            
+            Body.style.backgroundColor = "#FFD6E8";
+            Body.style.setProperty("--main-bg-color", "#FFD6E8");
+            Body.style.setProperty("--main-border-color", "#f5a4c2");
+            Body.style.setProperty("--button-bg-color", "#FFAEC0");
+            Body.style.setProperty("--text-color", "#5B3A4D");
+            Body.style.setProperty("--button-unavailable-color", "#f5a4c2");
+
+
+
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "TitleAnim";
+                span.style.animationDuration = "2s";
+                span.style.animationIterationCount = "infinite";
+                span.style.animationTimingFunction = "ease-in-out";
+                span.style.animationDirection = "normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "#5B3A4D";
+            });
+            Operator.style.animation = "OperatorSpin 0.9s infinite ease-in-out alternate";
+        } else {
+            GirlyPastelButton.textContent = "SELECT"
+            GirlyPastelButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "EVIL RED") {
+            EVILREDBUTTON.textContent = "SELECTED"
+            EVILREDBUTTON.style.color = "lime";
+
+            Body.style.backgroundColor = "#1a0202";
+            Body.style.setProperty("--main-bg-color", "#290404");
+            Body.style.setProperty("--main-border-color", "red");
+            Body.style.setProperty("--button-bg-color", "#290404");
+            Body.style.setProperty("--text-color", "red");
+            Body.style.setProperty("--button-unavailable-color", "#400a0a");
+
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "shake 0.6s infinite ease-in-out";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "red";
+            });
+            Operator.style.animation = "shake 0.6s infinite ease-in-out";
+        } else {
+            EVILREDBUTTON.textContent = "SELECT"
+            EVILREDBUTTON.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "Golden Prestige") {
+            GoldenPrestigeButton.textContent = "SELECTED"
+            GoldenPrestigeButton.style.color = "lime";
+            
+            Body.style.backgroundColor = "#B08D2C";
+            Body.style.setProperty("--main-bg-color", "#B08D2C");
+            Body.style.setProperty("--main-border-color", "#9A7A24");
+            Body.style.setProperty("--button-bg-color", "#6E5618");
+            Body.style.setProperty("--text-color", "#F3E6B1");
+            Body.style.setProperty("--button-unavailable-color", "#7A6A3A");
+
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "TitleAnim";
+                span.style.animationDuration = "2s";
+                span.style.animationIterationCount = "infinite";
+                span.style.animationTimingFunction = "ease-in-out";
+                span.style.animationDirection = "normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "gold";
+            });
+            Operator.style.animation = "OperatorSpin 0.9s infinite ease-in-out alternate";
+        } else {
+            GoldenPrestigeButton.textContent = "SELECT"
+            GoldenPrestigeButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "Cosmic Void") {
+            CosmicVoidButton.textContent = "SELECTED"
+            CosmicVoidButton.style.color = "lime";
+
+            Body.style.backgroundColor = "#1B0B2A";
+            Body.style.setProperty("--main-bg-color", "#1B0B2A");
+            Body.style.setProperty("--main-border-color", "#3A1F4B");
+            Body.style.setProperty("--button-bg-color", "#4B2B6E");
+            Body.style.setProperty("--text-color", "#E0D6F0");
+            Body.style.setProperty("--button-unavailable-color", "#2E1A3B");
+
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "TitleAnim";
+                span.style.animationDuration = "2s";
+                span.style.animationIterationCount = "infinite";
+                span.style.animationTimingFunction = "ease-in-out";
+                span.style.animationDirection = "normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "#E0D6F0";
+            });
+
+        } else {
+            CosmicVoidButton.textContent = "SELECT"
+            CosmicVoidButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "Terminal Green") {
+            TerminalGreenButton.textContent = "SELECTED"
+            TerminalGreenButton.style.color = "lime";
+
+            Body.style.backgroundColor = "#000000";
+            Body.style.setProperty("--main-bg-color", "#000000");
+            Body.style.setProperty("--main-border-color", "lime");
+            Body.style.setProperty("--button-bg-color", "#00000");
+            Body.style.setProperty("--text-color", "lime");
+            Body.style.setProperty("--button-unavailable-color", "#6C8F00");
+
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "TitleAnim, blood-moon-flicker";
+                span.style.animationDuration = "2s, 0.5s";
+                span.style.animationIterationCount = "infinite, infinite";
+                span.style.animationTimingFunction = "ease-in-out, ease-in-out";
+                span.style.animationDirection = "normal, normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "lime";
+            });
+
+        } else {
+            TerminalGreenButton.textContent = "SELECT"
+            TerminalGreenButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "BLOOD MOON") {
+            BloodMoonButton.textContent = "SELECTED"
+            BloodMoonButton.style.color = "lime";
+
+            Body.style.backgroundColor = "#000000";
+            Body.style.setProperty("--main-bg-color", "#000000");
+            Body.style.setProperty("--main-border-color", "#3A0B0B");
+            Body.style.setProperty("--button-bg-color", "#4C0E0E");
+            Body.style.setProperty("--text-color", "#E58B8B");
+            Body.style.setProperty("--button-unavailable-color", "#1F0505");
+
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "TitleAnim, blood-moon-flicker";
+                span.style.animationDuration = "2s, 3.5s";
+                span.style.animationIterationCount = "infinite, infinite";
+                span.style.animationTimingFunction = "ease-in-out, ease-in-out";
+                span.style.animationDirection = "normal, normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "red";
+            });
+
+        } else {
+            BloodMoonButton.textContent = "SELECT"
+            BloodMoonButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin == "Rainbow") {
+            RainbowButton.textContent = "SELECTED"
+            RainbowButton.style.color = "lime";
+
+            window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+            Body.style.backgroundColor = "var(--main-bg-color)";
+            Body.style.setProperty("--main-bg-color", "white");
+            Body.style.setProperty("--main-border-color", "lightgray");
+            Body.style.setProperty("--button-bg-color", "white");
+            Body.style.setProperty("--text-color", "black");
+            Body.style.setProperty("--button-unavailable-color", "lightgray");
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "RainbowAnim, TitleAnim";
+                span.style.animationDuration = "3s, 1.6s";
+                span.style.animationIterationCount = "infinite, infinite";
+                span.style.animationTimingFunction = "ease-in-out, ease-in-out";
+                span.style.animationDirection = "normal, normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "black";
+            });
+        } else {
+            RainbowButton.textContent = "SELECT"
+            RainbowButton.style.color = "var(--text-color)";
+        }
+
+        if (SelectedSkin != "No Skin") {
+            DarkModeButton.disabled = true;
+            DarkModeButton.textContent = "Dark & Light Mode Unavailable"
+        }
+        if (SelectedSkin == "No Skin") {
+            DarkModeButton.disabled = false;
+            Title.querySelectorAll("span").forEach(span => {
+                span.style.animation = "none"
+                span.style.animationName = "RainbowAnim, TitleAnim";
+                span.style.animationDuration = "3s, 1.6s";
+                span.style.animationIterationCount = "infinite, infinite";
+                span.style.animationTimingFunction = "ease-in-out, ease-in-out";
+                span.style.animationDirection = "normal, normal";
+                span.style.animationDelay = "calc(0.08s * var(--i))";
+                span.style.color = "black";
+            });
+        }
+    }
+
+    // Skin Toggles
+
+    NoSkinButton.addEventListener("click", function() {
+        SelectedSkin = "No Skin";
+        saveGame()
+        RefreshSkins();
+    });
+
+    GenericNeonButton.addEventListener("click", function() {
+        SelectedSkin = "Generic Neon";
+        saveGame()
+        RefreshSkins();
+    });
+
+    GirlyPastelButton.addEventListener("click", function() {
+        SelectedSkin = "Girly Pastel";
+        saveGame()
+        RefreshSkins();
+    });
+
+    EVILREDBUTTON.addEventListener("click", function() {
+        SelectedSkin = "EVIL RED";
+        saveGame()
+        RefreshSkins();
+    });
+
+    GoldenPrestigeButton.addEventListener("click", function() {
+        SelectedSkin = "Golden Prestige";
+        saveGame()
+        RefreshSkins();
+    });
+
+    CosmicVoidButton.addEventListener("click", function() {
+        SelectedSkin = "Cosmic Void";
+        saveGame()
+        RefreshSkins();
+    });
+    
+    TerminalGreenButton.addEventListener("click", function() {
+        SelectedSkin = "Terminal Green";
+        saveGame()
+        RefreshSkins();
+    });
+
+    BloodMoonButton.addEventListener("click", function() {
+        SelectedSkin = "BLOOD MOON";
+        saveGame()
+        RefreshSkins();
+    });
+
+    RainbowButton.addEventListener("click", function() {
+        SelectedSkin = "Rainbow";
+        saveGame()
+        RefreshSkins();
+    });
+
+
+
+    
+    RefreshSkins();
 
     console.log(getSaveData())
     console.log("Hey you! Get the fuck out of my console! >:(")
