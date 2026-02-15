@@ -477,7 +477,7 @@
 
     <!-- Result Area -->
 
-    <h1 class="ResultArea" id="ResultArea">v2.4 / Lootboxes Update</h1>
+    <h1 class="ResultArea" id="ResultArea">v2.4.1 / Lootboxes Update</h1>
 
     &nbsp;
 
@@ -1074,6 +1074,7 @@
             Body.style.setProperty("--text-color", "black");
             Body.style.setProperty("--button-unavailable-color", "lightgray");
             DarkModeButton.textContent = "DARK MODE"
+            Operator.style.animation = "OperatorSpin 0.9s infinite ease-in-out alternate";
 
         } else {
             NoSkinButton.textContent = "SELECT"
@@ -1101,6 +1102,7 @@
                 span.style.animationDelay = "calc(0.08s * var(--i))";
                 span.style.color = "lime";
             });
+            Operator.style.animation = "OperatorSpin 0.9s infinite ease-in-out alternate";
         } else {
             GenericNeonButton.textContent = "SELECT"
             GenericNeonButton.style.color = "var(--text-color)";
@@ -1205,6 +1207,7 @@
                 span.style.animationDelay = "calc(0.08s * var(--i))";
                 span.style.color = "#E0D6F0";
             });
+            Operator.style.animation = "OperatorSpin 0.9s infinite ease-in-out alternate";
 
         } else {
             CosmicVoidButton.textContent = "SELECT"
@@ -1259,6 +1262,7 @@
                 span.style.animationDelay = "calc(0.08s * var(--i))";
                 span.style.color = "red";
             });
+            Operator.style.animation = "OperatorSpin 0.9s infinite ease-in-out alternate";
 
         } else {
             BloodMoonButton.textContent = "SELECT"
@@ -1286,6 +1290,7 @@
                 span.style.animationDelay = "calc(0.08s * var(--i))";
                 span.style.color = "black";
             });
+            Operator.style.animation = "OperatorSpin 0.9s infinite ease-in-out alternate";
         } else {
             RainbowButton.textContent = "SELECT"
             RainbowButton.style.color = "var(--text-color)";
