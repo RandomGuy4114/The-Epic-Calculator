@@ -17,6 +17,10 @@
                 font-family: "Comic Sans";
                 src: url("Comic\ Sans\ MS.ttf");
             }
+            @font-face {
+                font-family: "Minecraft";
+                src: url("Minecraft.ttf");
+            }
 
             @keyframes RainbowAnim {
                 0% { color: #ff0000; }
@@ -69,6 +73,10 @@
 
             @keyframes blood-moon-flicker {
                 100% { text-shadow: 0 0 10px black; color: black;}
+            }
+            @keyframes scaleSplash {
+                from { transform: rotate(-5deg) scale(1); }
+                to   { transform: rotate(-5deg) scale(1.15); }
             }
 
 
@@ -138,19 +146,6 @@
                 color: var(--text-color);
             }
 
-            .title span {
-                text-shadow: 0 0 15px currentColor;
-                justify-content: center;
-                display: inline-block;
-                animation-name: RainbowAnim, TitleAnim;
-                animation-duration: 3s, 1.6s;
-                animation-iteration-count: infinite, infinite;
-                animation-timing-function: ease-in-out, ease-in-out;
-                animation-direction: normal, normal;
-                animation-delay: calc(0.08s * var(--i));
-                font-size: 50px;
-
-            }
             .Operator {
                 font-size: 36px;
                 margin: 20px;
@@ -318,6 +313,41 @@
                 animation: RainbowAnim 3s infinite ease-in-out;
                 text-shadow: 0 0 15px currentColor;
             }
+            .title {
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .word span {
+                text-shadow: 0 0 15px currentColor;
+                justify-content: center;
+                display: inline-block;
+                animation-name: RainbowAnim, TitleAnim;
+                animation-duration: 3s, 1.6s;
+                animation-iteration-count: infinite, infinite;
+                animation-timing-function: ease-in-out, ease-in-out;
+                animation-direction: normal, normal;
+                animation-delay: calc(0.08s * var(--i));
+                font-size: 50px;
+            }
+            .splash {
+                position: absolute;
+                font-size: 24px;
+                top: 40px;
+                left: 50%; /* center on the X axis relative to .title (which is positioned) */
+                font-family: Minecraft;
+                color: rgb(255, 238, 0);
+                text-shadow: 0 3px 0px rgba(0, 0, 0, 0.7);
+                /* translateX(-50%) keeps the element horizontally centered regardless of its width */
+                transform-origin: center center;
+                transform: translateX(-50%) rotate(20deg);
+                animation: scaleSplash 0.7s infinite ease-in-out alternate;
+                pointer-events: none;
+                text-align: center;
+            }
+            
+
 
 
         </style>
@@ -337,6 +367,8 @@
     <div class="TopDiv" id="SettingsOverlay" style="visibility: hidden;">
         <h1>SETTINGS</h1>
         <button class="UpgradeListButton" id="DarkModeButton">DARK MODE</button>
+        <button class="UpgradeListButton" id="SplashTextButton">SPLASH TEXT (buggy)</button>
+        <button class="UpgradeListButton" id="AdMiniGameButton">??? (DO NOT CLICK)</button>
     
         <button class="SettingsButton" id="CloseSettingsButton" style="width: 320px; color: red;">CLOSE</button>
     </div>
@@ -458,26 +490,32 @@
     <!-- Title -->
 
     <h1 class="title" id="Title">
-        <span style="--i:1">E</span>
-        <span style="--i:2">P</span>
-        <span style="--i:3">I</span>
-        <span style="--i:4">C</span>
-        &nbsp;
-        <span style="--i:5">C</span>
-        <span style="--i:6">A</span>
-        <span style="--i:7">L</span>
-        <span style="--i:8">C</span>
-        <span style="--i:9">U</span>
-        <span style="--i:10">L</span>
-        <span style="--i:11">A</span>
-        <span style="--i:12">T</span>
-        <span style="--i:13">O</span>
-        <span style="--i:14">R</span>
+        <span class="word">
+            <span style="--i:1">E</span>
+            <span style="--i:2">P</span>
+            <span style="--i:3">I</span>
+            <span style="--i:4">C</span>
+            &nbsp;
+            <span style="--i:5">C</span>
+            <span style="--i:6">A</span>
+            <span style="--i:7">L</span>
+            <span style="--i:8">C</span>
+            <span style="--i:9">U</span>
+            <span style="--i:10">L</span>
+            <span style="--i:11">A</span>
+            <span style="--i:12">T</span>
+            <span style="--i:13">O</span>
+            <span style="--i:14">R</span>
+        </span>
+        <span class="centertext">
+            <span class="splash" id="splashText"></span>
+        </span>
+
     </h1> <!-- This may look as inefficient as shit, and you're right, it is. -->
 
     <!-- Result Area -->
 
-    <h1 class="ResultArea" id="ResultArea">v2.4.1 / Lootboxes Update</h1>
+    <h1 class="ResultArea" id="ResultArea">v2.4.2 / Splash Texts?</h1>
 
     &nbsp;
 
@@ -538,6 +576,7 @@
     let Div0 = false;
     let GameSave = true;
     let SelectedSkin = "No Skin";
+    let AdsEnabled = false;
     const SAVE_KEY = "Epic_Calc_Save_Lol"
     function SUPERSECRETDEVELOPERMODE() {
         console.log("SUPER SECRET DEVELOPER MODE ACTIVATED!! (your progress wont save until you reload the website)")
@@ -552,6 +591,7 @@
         Results = [];
         EnabledUpgrades = [];
         UnlockedSkins = [];
+        AdsEnabled = false;
 
         CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`;
         GamblePurchaseButton.disabled = false;
@@ -569,7 +609,8 @@
             Results,
             EnabledUpgrades,
             UnlockedSkins,
-            SelectedSkin
+            SelectedSkin,
+            AdsEnabled
         }
     }
 
@@ -580,6 +621,7 @@
         Results = data.Results ?? [];
         UnlockedSkins = data.UnlockedSkins ?? [];
         SelectedSkin = data.SelectedSkin ?? "No Skin";
+        AdsEnabled = data.AdsEnabled ?? false;
         CalcBux.textContent = `CalcBux Amount: ${CalcBuxAmount}$`;
 
         if (EnabledUpgrades.includes("Gambling")) {
@@ -589,6 +631,9 @@
         if (EnabledUpgrades.includes("2XMoreMoney")) {
             MoneyPurchaseButton.disabled = false;
             MoneyPurchaseButton.disabled = true;
+        }
+        if (AdsEnabled) {
+            LoadAds()
         }
         // Refresh skins UI after loading saved unlocked skins
         try {
@@ -870,6 +915,211 @@
         }
     });
 
+    const SplashTextButton = document.getElementById("SplashTextButton");
+    const SplashText = document.getElementById("splashText");
+    let SplashTextEnabled = false;
+    SplashText.style.visibility = "hidden"
+
+    function LoadAds() {
+        if (AdsEnabled) {
+            AdMiniGameButton.textContent = "Good Luck Cleaning this up :)"
+            AdMiniGameButton.disabled = true;
+            let adsOpen = 0; // Track total ads created
+            
+            for (let i = 0; i < 10; i++) {
+                const Body = document.body;
+
+                const ads = [
+                    {
+                        text: "Buy Epic Calc Pro for only $9.99!!!",
+                        style: {
+                            backgroundColor: "white",
+                            color: "black",
+                            fontSize: "20px",
+                            fontFamily: "Impact, sans-serif",
+                            padding: "10px 30px 10px 10px", // extra space for close button
+                            border: "3px solid black",
+                            transform: "rotate(-5deg)",
+                            position: "fixed",
+                            animation: "RainbowAnim 5s infinite",
+                            
+                        }
+                    },
+                    {
+                        text: "Hot Singles In Your Area!",
+                        style: {
+                            backgroundColor: "#ff7f7f",
+                            color: "white",
+                            fontSize: "18px",
+                            fontFamily: "Comic Sans MS, cursive",
+                            padding: "8px 30px 8px 8px",
+                            border: "2px dashed darkred",
+                            transform: "rotate(8deg)",
+                            position: "fixed"
+                        }
+                    },
+                    {
+                        text: "Click Here For A Free iPhone!!!",
+                        style: {
+                            backgroundColor: "#7f7fff",
+                            color: "white",
+                            fontSize: "22px",
+                            fontFamily: "Arial Black, Gadget, sans-serif",
+                            padding: "12px 30px 12px 12px",
+                            border: "4px double blue",
+                            transform: "rotate(-10deg)",
+                            position: "fixed"
+                        }
+                    },
+                    {
+                        text: "You Won A Free Cruise, Click To Claim!",
+                        style: {
+                            backgroundColor: "#7fff7f",
+                            color: "white",
+                            fontSize: "20px",
+                            fontFamily: "Verdana, Geneva, Tahoma, sans-serif",
+                            padding: "10px 30px 10px 10px",
+                            border: "3px solid green",
+                            transform: "rotate(5deg)",
+                            position: "fixed"
+                        }
+                    },
+                    {
+                        text: "Earn $5000 A Day From Home!!!",
+                        style: {
+                            backgroundColor: "#ffff7f",
+                            color: "black",
+                            fontSize: "24px",
+                            fontFamily: "Impact, sans-serif",
+                            padding: "14px 30px 14px 14px",
+                            border: "5px double orange",
+                            transform: "rotate(-7deg)",
+                            position: "fixed"
+                        }
+                    },
+                    {
+                        text: "This One Weird Trick Will Make You Rich!!!",
+                        style: {
+                            backgroundColor: "#ff7fff",
+                            color: "white",
+                            fontSize: "18px",
+                            fontFamily: "Comic Sans MS, cursive",
+                            padding: "8px 30px 8px 8px",
+                            border: "2px dashed purple",
+                            transform: "rotate(10deg)",
+                            position: "fixed"
+                        }
+                    },
+                    {
+                        text: "Doctors Hate Him! Find Out Why!!!",
+                        style: {
+                            backgroundColor: "#7fffff",
+                            color: "black",
+                            fontSize: "20px",
+                            fontFamily: "Arial Black, Gadget, sans-serif",
+                            padding: "10px 30px 10px 10px",
+                            border: "3px solid cyan",
+                            transform: "rotate(-5deg)",
+                            position: "fixed"
+                        }
+                    },
+                    {
+                        text: "Lose 20 Pounds In 2 Weeks With This Simple Trick!!!",
+                        style: {
+                            backgroundColor: "#ffbf7f",
+                            color: "white",
+                            fontSize: "22px",
+                            fontFamily: "Verdana, Geneva, Tahoma, sans-serif",
+                            padding: "12px 30px 12px 12px",
+                            border: "4px double red",
+                            transform: "rotate(7deg)",
+                            position: "fixed"
+                        }
+                    }                    
+                ];
+
+                ads.forEach(adInfo => {
+                    const ad = document.createElement("div");
+                    ad.textContent = adInfo.text;
+                    adsOpen++; // Increment ad count
+
+
+                    ad.style.top = Math.random() * (window.innerHeight - 50) + "px";
+                    ad.style.left = Math.random() * (window.innerWidth - 200) + "px";
+                    ad.style.zIndex = 1000;
+
+                    Object.assign(ad.style, adInfo.style);
+
+
+                    const closeBtn = document.createElement("span");
+                    const randomRotation = Math.random() * 30 - 15;
+                    ad.style.transform = `rotate(${randomRotation}deg)`;
+                    closeBtn.textContent = "X";
+                    closeBtn.style.position = "absolute";
+                    closeBtn.style.top = "2px";
+                    closeBtn.style.right = "5px";
+                    closeBtn.style.cursor = "pointer";
+                    closeBtn.style.fontWeight = "bold";
+                    closeBtn.style.fontSize = "30px";
+                    closeBtn.style.color = ad.style.color;
+                    closeBtn.addEventListener("click", () => {
+                        ad.remove();
+                        adsOpen--; // Decrement when ad is closed
+                        if (adsOpen === 0) {
+                            onAllAdsClosed(); // Call when all ads closed
+                        }
+                    });
+
+                    ad.style.position = "fixed";
+                    ad.style.display = "inline-block";
+                    ad.style.boxSizing = "border-box";
+
+                    ad.appendChild(closeBtn);
+                    Body.appendChild(ad);
+                });
+
+            }
+        }
+    }
+    
+    function onAllAdsClosed() {
+        console.log("All ads have been closed!");
+        AdsEnabled = false
+        saveGame()
+    }
+
+    SplashTextButton.addEventListener("click", function() {
+        if (!SplashTextEnabled) {
+            SplashText.style.visibility = "visible"
+            SplashTextEnabled = true;
+            changeSplashText();
+            SplashTextButton.textContent = "HIDE SPLASH TEXT"
+        } else {
+            SplashText.style.visibility = "hidden"
+            SplashTextEnabled = false;
+            SplashTextButton.textContent = "SPLASH TEXT (buggy)"
+        }
+    });
+    let ButtonRageLevel = 0;
+    const AdMiniGameButton = document.getElementById("AdMiniGameButton");
+    AdMiniGameButton.addEventListener("click", function() {
+        if (ButtonRageLevel == 0) {
+            AdMiniGameButton.textContent = "Dont."
+        } else if (ButtonRageLevel == 1) {
+            AdMiniGameButton.textContent = "Seriously, stop."
+        } else if (ButtonRageLevel == 2) {
+            AdMiniGameButton.textContent = "I said stop!"
+        } else if (ButtonRageLevel == 3) {
+            AdMiniGameButton.textContent = "Last warning!"
+        } else if (ButtonRageLevel >= 4) {
+            AdsEnabled = true;
+            LoadAds()
+            saveGame()
+        }
+        ButtonRageLevel += 1;
+
+    });
+
     const ShopButton = document.getElementById("ShopButton");
     const ShopOverlay = document.getElementById("ShopOverlay");
     const CloseShopButton = document.getElementById("CloseShopButton");
@@ -1092,7 +1342,7 @@
             Body.style.setProperty("--text-color", "lime");
             Body.style.setProperty("--button-unavailable-color", "green");
             
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "TitleAnim";
                 span.style.animationDuration = "2s";
@@ -1121,7 +1371,7 @@
 
 
 
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "TitleAnim";
                 span.style.animationDuration = "2s";
@@ -1148,7 +1398,7 @@
             Body.style.setProperty("--text-color", "red");
             Body.style.setProperty("--button-unavailable-color", "#400a0a");
 
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "shake 0.6s infinite ease-in-out";
                 span.style.animationDelay = "calc(0.08s * var(--i))";
                 span.style.color = "red";
@@ -1170,7 +1420,7 @@
             Body.style.setProperty("--text-color", "#F3E6B1");
             Body.style.setProperty("--button-unavailable-color", "#7A6A3A");
 
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "TitleAnim";
                 span.style.animationDuration = "2s";
@@ -1197,7 +1447,7 @@
             Body.style.setProperty("--text-color", "#E0D6F0");
             Body.style.setProperty("--button-unavailable-color", "#2E1A3B");
 
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "TitleAnim";
                 span.style.animationDuration = "2s";
@@ -1225,7 +1475,7 @@
             Body.style.setProperty("--text-color", "lime");
             Body.style.setProperty("--button-unavailable-color", "#6C8F00");
 
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "TitleAnim, blood-moon-flicker";
                 span.style.animationDuration = "2s, 0.5s";
@@ -1252,7 +1502,7 @@
             Body.style.setProperty("--text-color", "#E58B8B");
             Body.style.setProperty("--button-unavailable-color", "#1F0505");
 
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "TitleAnim, blood-moon-flicker";
                 span.style.animationDuration = "2s, 3.5s";
@@ -1280,7 +1530,7 @@
             Body.style.setProperty("--button-bg-color", "white");
             Body.style.setProperty("--text-color", "black");
             Body.style.setProperty("--button-unavailable-color", "lightgray");
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "RainbowAnim, TitleAnim";
                 span.style.animationDuration = "3s, 1.6s";
@@ -1302,7 +1552,7 @@
         }
         if (SelectedSkin == "No Skin") {
             DarkModeButton.disabled = false;
-            Title.querySelectorAll("span").forEach(span => {
+            Title.querySelectorAll(".word span").forEach(span => {
                 span.style.animation = "none"
                 span.style.animationName = "RainbowAnim, TitleAnim";
                 span.style.animationDuration = "3s, 1.6s";
@@ -1370,12 +1620,20 @@
         saveGame()
         RefreshSkins();
     });
+    const splashText = document.getElementById("splashText");
+    const splashTexts = [
+        "The best calculator in the world!", "Now with loot boxes!", "Supports skins and customizations!", "Gambling? Yes please!", "Collect CalcBux and buy upgrades!", "What are you waiting for? Start calculating!"
+    ];
+    function changeSplashText() {
+        const randomIndex = Math.floor(Math.random() * splashTexts.length);
+        splashText.textContent = splashTexts[randomIndex];
+    }
 
-
+    changeSplashText();
 
     
     RefreshSkins();
-
+    LoadAds()
     console.log(getSaveData())
     console.log("Hey you! Get the fuck out of my console! >:(")
 </script>
