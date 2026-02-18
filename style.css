@@ -1,0 +1,418 @@
+/* ============================================
+    CSS VARIABLES - Theme colors for light/dark modes
+    ============================================ */
+:root {
+    --main-bg-color: white;
+    --main-border-color: lightgray;
+    --button-bg-color: white;
+    --text-color: black;
+    --button-unavailable-color: lightgray;
+    --button-price-color: green;
+    --button-color-2: #ffffff;
+}
+
+/* Custom font imports */
+@font-face {
+    font-family: "Comic Sans";
+    src: url("Comic\ Sans\ MS.ttf");
+}
+@font-face {
+    font-family: "Minecraft";
+    src: url("Minecraft.ttf");
+}
+
+/* ============================================
+    KEYFRAME ANIMATIONS - All visual effects
+    ============================================ */
+
+/* Rainbow color cycling animation for title */
+@keyframes RainbowAnim {
+    0% { color: #ff0000; }
+    16% { color: #ff7f00; }
+    33% { color: #ffff00; }
+    50% { color: #00ff00; }
+    66% { color: #0000ff; }
+    83% { color: #4b0082; }
+    100% { color: #8f00ff; }
+}
+
+/* Floating up and down animation for title */
+@keyframes TitleAnim {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-20px);}
+}
+
+/* Spinning rotation effect for operator button */
+@keyframes OperatorSpin {
+    0% {transform: rotate(-10deg);}
+    100% {transform: rotate(10deg);}
+}
+
+/* Bouncing animation for first number input */
+@keyframes ResultAnim {
+    8% {transform: translateX(-30px) rotate(-5deg);}
+}
+
+/* Bouncing animation for second number input */
+@keyframes ResultAnimRight {
+    8% {transform: translateX(30px) rotate(5deg);}
+}
+
+/* Shaking vibration effect used for Evil Red skin */
+@keyframes shake {
+    0%   { transform: translate(0px, 0px) rotate(0deg); }
+    10%  { transform: translate(-1px, 1px) rotate(-0.5deg); }
+    20%  { transform: translate(1px, -1px) rotate(0.5deg); }
+    30%  { transform: translate(-1px, 0px) rotate(-0.3deg); }
+    40%  { transform: translate(1px, 1px) rotate(0.3deg); }
+    50%  { transform: translate(0px, -1px) rotate(-0.4deg); }
+    60%  { transform: translate(-1px, 0px) rotate(0.4deg); }
+    70%  { transform: translate(1px, -1px) rotate(-0.2deg); }
+    80%  { transform: translate(-1px, 1px) rotate(0.2deg); }
+    90%  { transform: translate(1px, 0px) rotate(-0.3deg); }
+    100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+@keyframes green-neon-flicker {
+    0%, 100% { text-shadow: 0 0 10px lime; }
+    50% { text-shadow: 0 0 20px lime; }
+}
+
+@keyframes float {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(4px, -6px) rotate(0.5deg); }
+    50%  { transform: translate(-2px, -10px) rotate(-0.5deg); }
+    75%  { transform: translate(-5px, -4px) rotate(0.3deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes blood-moon-flicker {
+    100% { text-shadow: 0 0 10px black; color: black;}
+}
+@keyframes scaleSplash {
+    from { transform: rotate(-5deg) scale(1); }
+    to   { transform: rotate(-5deg) scale(1.15); }
+}
+
+@keyframes RedPulse {
+    0% { color: red; text-shadow: 0 0 10px red; }
+    50% { color: var(--text-color); text-shadow: none; }
+    100% { color: red; text-shadow: 0 0 10px red; }
+}
+
+@keyframes FadeAway {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* ============================================
+    ELEMENT STYLING - Typography and layout
+    ============================================ */
+
+/* Title headings */
+h1 {
+    text-align: center;
+    font-family: "Comic Sans";
+    color: var(--text-color);
+}
+/* Paragraph text */
+p {
+    font-family: "Comic Sans";
+    color: var(--text-color);
+}
+/* All buttons - base styling */
+button {
+    font-family: "Comic Sans";
+    font-size: 24px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: var(--main-border-color);
+    background-color: var(--button-bg-color);
+    padding: 10px;
+    color: var(--text-color);
+    transition: background-color 0.2s ease;
+}
+/* Disabled button state */
+button:disabled {
+    background-color: var(--button-unavailable-color);
+}
+/* Hover effect for active buttons */
+button:hover:not(:disabled) {
+    background-color: var(--button-unavailable-color);
+}
+/* Calculate button styling */
+.CalcButton {
+    width: 200px;
+}
+.Shake {
+    animation: shake 0.5s ease-in-out;
+}
+/* Number input fields styling */
+textarea {
+    font-family: "Comic Sans";
+    resize: none;
+    width: 100px;
+    height: 100px;
+    font-size: 71px;
+    border-radius: 10px;
+    border-style: solid;
+    text-align: center;
+    border-color: var(--main-border-color);
+    white-space: nowrap;
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    transition: background-color 0.2s ease;
+}
+/* Flexbox container for number inputs */
+.TextAreas {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    
+}
+/* Animation for left number on calculation */
+.Num1anim {
+    animation: ResultAnim 1s 1 linear;
+}
+/* Animation for right number on calculation */
+.Num2anim {
+    animation: ResultAnimRight 1s 1 linear;
+}
+/* Container for operator button */
+.OperatorArea {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    color: var(--text-color);
+}
+
+/* Operator selection dropdown */
+/* Operator selection dropdown */
+.Operator {
+    font-size: 36px;
+    margin: 20px;
+    display: flex;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-family: "Comic Sans";
+    appearance: none;
+    justify-content: center;
+    background-color: var(--button-bg-color);
+    border-color: var(--main-border-color);
+    border-radius: 6px;
+    border-style: solid;
+    animation: OperatorSpin 0.9s infinite ease-in-out alternate;
+    color: var(--text-color);
+    transition: background-color 0.2s ease;
+}
+/* Operator hover state */
+.Operator:hover {
+    background-color: var(--button-unavailable-color);
+}
+/* Result display area */
+.ResultArea {
+    display: flex;
+    width: 450px;
+    height: 50px;
+    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--main-border-color);
+    margin:auto;
+    border-radius: 6px;
+    background-color: var(--button-bg-color);
+    transition: background-color 0.2s ease;
+    
+}
+/* CalcBux amount text styling */
+.CalcBuxAmount {
+    font-size: 30px;
+    transition: color 0.5s ease;
+}
+/* Upgrade menu button styling */
+.UpgradeButton {
+    height: 40px;
+    width: 150px;
+    font-size: 15px;
+}
+
+/* Fixed settings button at bottom of screen */
+.SettingsButton {
+    height: 40px;
+    width: 300px;
+    font-size: 15px;
+    position: fixed;
+    bottom: 0;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+/* Fixed shop button at bottom left */
+.ShopButton {
+    height: 40px;
+    width: 60px;
+    font-size: 15px;
+    position: fixed;
+    left: 1px;
+    bottom: 0;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+/* Modal overlay container - centered popups */
+.TopDiv {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 500px;
+    background: var(--main-bg-color);
+    border: 2px solid var(--main-border-color);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2px;  
+}
+
+/* Button styling for lists in modals */
+.UpgradeListButton {
+    height: 45px;
+    font-size: 15px;
+    display: block;
+}
+/* Fixed skins button at bottom */
+.SkinsButton {
+    height: 40px;
+    width: 60px;
+    font-size: 15px;
+    position: fixed;
+    left: 67px;
+    bottom: 0;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    font-size: 13px;
+    
+}
+/* Grid container for skins */
+.SkinsContainer {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+/* Individual skin card styling */
+.Skin {
+    height: 140px;
+    width: 296px;
+    border: 2px solid var(--main-border-color);
+    border-radius: 6px;
+    background-color: var(--button-bg-color);
+}
+/* Skin selection button */
+.SkinButton {
+    height: 45px;
+    width: 250px;
+    font-size: 15px;
+    background-color: var(--button-bg-color);
+}
+/* Scrollable skin list container */
+.SkinHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; 
+    
+    gap: 5px;
+    height: 340px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 2px solid var(--main-border-color);
+    border-radius: 6px;
+    scrollbar-color: var(--button-bg-color);
+    scrollbar-color: var(--button-bg-color) var(--main-border-color);
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+}
+/* Evil Red skin text effect - shaking each letter */
+.EvilRedText span {
+    display: inline-block;
+    animation: shake 0.6s infinite ease-in-out;
+    animation-delay: calc(0.08s * var(--i));
+}
+/* Generic Neon skin text styling */
+.GenericNeonText {
+    color: lime;
+    text-shadow: 0 0 5px lime;
+    animation: green-neon-flicker 1s infinite ease-in-out;
+}
+
+/* Cosmic Void skin floating animation */
+.floating-element {
+    animation: float 6s ease-in-out infinite;
+}
+/* Blood Moon skin text effect - flickering red */
+.BloodMoonText span {
+    color: darkred;
+    text-shadow: 0 0 10px darkred;
+    animation: blood-moon-flicker 0.6s infinite ease-in-out;
+    animation-delay: calc(0.08s * var(--i));
+}
+
+/* Rainbow animated text */
+.RainbowText {
+    animation: RainbowAnim 3s infinite ease-in-out;
+    text-shadow: 0 0 15px currentColor;
+}
+/* Title container positioning */
+.title {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Title word animations - rainbow + bouncing effect */
+.word span {
+    text-shadow: 0 0 15px currentColor;
+    justify-content: center;
+    display: inline-block;
+    animation-name: RainbowAnim, TitleAnim;
+    animation-duration: 3s, 1.6s;
+    animation-iteration-count: infinite, infinite;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-direction: normal, normal;
+    animation-delay: calc(0.08s * var(--i));
+    font-size: 50px;
+}
+/* Splash text (random message above calculator) */
+.splash {
+    position: absolute;
+    font-size: 24px;
+    top: 40px;
+    left: 50%;
+    font-family: Minecraft;
+    color: rgb(255, 238, 0);
+    text-shadow: 0 3px 0px rgba(0, 0, 0, 0.7);
+    transform-origin: center center;
+    transform: translateX(-50%) rotate(20deg);
+    animation: scaleSplash 0.7s infinite ease-in-out alternate;
+    pointer-events: none;
+    text-align: center;
+}
+/* Fixed menu button at bottom right */
+.MenuButton {
+    height: 40px;
+    width: 60px;
+    font-size: 15px;
+    position: fixed;
+    right: 1px;
+    bottom: 0;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
