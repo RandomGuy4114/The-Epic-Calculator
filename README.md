@@ -13,9 +13,12 @@ The epic calculator, the most useless way to do Math!
 - Upgrades (Only 2 rn lol)
 - A **secret** command
 - Saving system
-- DARK MODE!!!!! 🎉🎉🎉
-- LOOTBOXES!!
-- THEMES!!!!!
+- Dark Mode
+- Lootboxes
+- Themes
+- Banks (Loans, Interest, Depositing, Withdrawing)
+- Taxes
+- Loans
 - And more yet to come!
 
 # Why did I make this?
